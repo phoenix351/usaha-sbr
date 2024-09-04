@@ -1,0 +1,1679 @@
+{
+    "description": "validation",
+    "dataKey": "meta-val",
+    "version": "0.0.1",
+    "testFunctions": [
+        {
+            "dataKey": "jml_art",
+            "componentValidation": ["jml_art"],
+            "validations": [
+                {
+                    "test": "let value = getValue('jml_art'); value && value.trim().length === 0",
+                    "message": "Jumlah Anggota Rumah Tangga Minimal 1",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r105",
+            "componentValidation": ["r105"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r105'); value && value.trim().length === 0",
+                    "message": "Isi dengan lengkap",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r106",
+            "componentValidation": ["r106"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r106'); value && value.trim().length === 0",
+                    "message": "Isi dengan lengkap",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r107",
+            "componentValidation": ["r107"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r107'); value && value.trim().length === 0",
+                    "message": "Isi dengan lengkap",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r108",
+            "componentValidation": ["r108"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r108'); value && !/^[a-zA-Z\\s]*$/.test(value)",
+                    "message": "Hanya boleh diisi dengan huruf dan spaasi",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r109",
+            "componentValidation": ["r109"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r109'); value && !/^\\d+$/.test(value)",
+                    "message": "Hanya boleh diisi dengan angka",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r110",
+            "componentValidation": ["r110"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r110'); value && !/^\\d+$/.test(value)",
+                    "message": "Hanya boleh diisi dengan angka",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r111",
+            "componentValidation": ["r111"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r111'); value && !/^[a-zA-Z\\s]+$/.test(value)",
+                    "message": "Hanya boleh diisi dengan huruf",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r112",
+            "componentValidation": ["r112"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r112'); value && !/^\\d+$/.test(value)",
+                    "message": "Hanya boleh diisi dengan angka",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r113",
+            "componentValidation": ["r113"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r113'); value && !/^[a-zA-Z0-9]+$/.test(value)",
+                    "message": "Hanya boleh diisi dengan huruf dan angka, tidak boleh ada simbol atau spasi",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r114",
+            "componentValidation": ["r114"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r114'); value && (String(value).length !== 16 || !/^[0-9]+$/.test(value))",
+                    "message": "Nomor Kartu Keluarga harus terdiri dari 16 karakter dan hanya boleh terdiri dari angka",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r115",
+            "componentValidation": ["r115"],
+            "validations": [
+                {
+                    "test": "let value = getValue('kkk'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "hasil_kunjungan",
+            "componentValidation": ["hasil_kunjungan"],
+            "validations": [
+                {
+                    "test": "let value = getValue('hasil_kunjungan'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "pcl",
+            "componentValidation": ["pcl"],
+            "validations": [
+                {
+                    "test": "let value = getValue('pcl'); value && !/^[a-zA-Z\\s]+$/.test(value)",
+                    "message": "Hanya boleh diisi dengan huruf",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "nama_art",
+            "componentValidation": ["nama_art@$ROW$"],
+            "validations": [
+                {
+                    "test": "let nama_art = getValue('nama_art#'+getRowIndex(0)); String(nama_art).length < 3 || !/^[a-zA-Z\\s]+$/.test(String(nama_art))",
+                    "message": "Nama ART harus minimal 2 karakter dan hanya boleh mengandung huruf dan spasi",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "umur",
+            "componentValidation": ["umur", "r38a", "r38b"],
+            "validations": [
+                {
+                    "test": "getValue('umur#'+getRowIndex(0)) < 1",
+                    "message": "Umur tidak boleh di bawah 1 Tahun",
+                    "type": 2
+                },
+                {
+                    "test": "let a = getValue('r38a#'+getRowIndex(0))\n let b = getValue('r38b#'+getRowIndex(0))\n getValue('umur#'+getRowIndex(0)) >=  50 && ( a ==1 || b == 1 )",
+                    "message": "r38a atau r38b = 1 tapi umur >= 50",
+                    "type": 1
+                }
+            ]
+        },
+        {
+            "dataKey": "r402",
+            "componentValidation": ["r402"],
+            "validations": [
+                {
+                    "test": "!/^\\d+$/.test(getValue('r402#'+getRowIndex(0)))",
+                    "message": "Hanya boleh diisi dengan angka",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r403",
+            "componentValidation": ["r403@$ROW$"],
+            "validations": [
+                {
+                    "test": "!/^\\d{16}$/.test(String(getValue('r403#'+getRowIndex(0))))",
+                    "message": "Nomor Induk Kependudukan harus terdiri dari 16 karakter dan hanya boleh diisi dengan angka",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r404",
+            "componentValidation": ["r404@$ROW$"],
+            "validations": [
+                {
+                    "test": "getValue('r404#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r405",
+            "componentValidation": ["r405@$ROW$"],
+            "validations": [
+                {
+                    "test": "getValue('r405#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r406",
+            "componentValidation": ["r406"],
+            "validations": [
+                {
+                    "test": "getValue('r406#'+getRowIndex(0)) < 1",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r407",
+            "componentValidation": ["r407", "r38a", "r38b"],
+            "validations": [
+                {
+                    "test": "getValue('r407#'+getRowIndex(0)) < 1",
+                    "message": "Umur tidak boleh di bawah 1 Tahun",
+                    "type": 2
+                },
+                {
+                    "test": "let a = getValue('r38a#'+getRowIndex(0))\n let b = getValue('r38b#'+getRowIndex(0))\n getValue('umur#'+getRowIndex(0)) >=  50 && ( a ==1 || b == 1 )",
+                    "message": "r38a atau r38b = 1 tapi umur >= 50",
+                    "type": 1
+                }
+            ]
+        },
+        {
+            "dataKey": "r408",
+            "componentValidation": ["r408@$ROW$"],
+            "validations": [
+                {
+                    "test": "getValue('r408#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r409",
+            "componentValidation": ["r409@$ROW$"],
+            "validations": [
+                {
+                    "test": "getValue('r409#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r410",
+            "componentValidation": ["r410@$ROW$"],
+            "validations": [
+                {
+                    "test": "getValue('r410#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r411",
+            "componentValidation": ["r411@$ROW$"],
+            "validations": [
+                {
+                    "test": "getValue('r411#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r412",
+            "componentValidation": ["r412@$ROW$"],
+            "validations": [
+                {
+                    "test": "getValue('r412#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r413",
+            "componentValidation": ["r413@$ROW$"],
+            "validations": [
+                {
+                    "test": "getValue('r413#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r414",
+            "componentValidation": ["r414"],
+            "validations": [
+                {
+                    "test": "getValue('r414#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r415",
+            "componentValidation": ["r415"],
+            "validations": [
+                {
+                    "test": "getValue('r414#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r416A",
+            "componentValidation": ["r416A@$ROW$"],
+            "validations": [
+                {
+                    "test": "getValue('r416A#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r416B",
+            "componentValidation": ["r416B@$ROW$"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r416B#' + getRowIndex(0)); !/^[0-9]+$/.test(value)",
+                    "message": "Hanya boleh diisi dengan angka",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r417",
+            "componentValidation": ["r417@$ROW$"],
+            "validations": [
+                {
+                    "test": "getValue('r417#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r418",
+            "componentValidation": ["r418@$ROW$"],
+            "validations": [
+                {
+                    "test": "getValue('r418#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r419",
+            "componentValidation": ["r419@$ROW$"],
+            "validations": [
+                {
+                    "test": "getValue('r419#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r420A",
+            "componentValidation": ["r420A@$ROW$"],
+            "validations": [
+                {
+                    "test": "getValue('r420A#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r420B",
+            "componentValidation": ["r420B@$ROW$"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r420B#' + getRowIndex(0)); !/^[0-9]+$/.test(value)",
+                    "message": "Hanya boleh diisi dengan angka",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r421",
+            "componentValidation": ["r421@$ROW$"],
+            "validations": [
+                {
+                    "test": "getValue('r421#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r422",
+            "componentValidation": ["r422"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r422#' + getRowIndex(0)); !/^[0-9]+$/.test(value)",
+                    "message": "Hanya boleh diisi dengan angka",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r423",
+            "componentValidation": ["r423@$ROW$"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r422#' + getRowIndex(0)); !/^[0-9]+$/.test(value)",
+                    "message": "Hanya boleh diisi dengan angka",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r424",
+            "componentValidation": ["r424@$ROW$"],
+            "validations": [
+                {
+                    "test": "getValue('r424#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r425",
+            "componentValidation": ["r425@$ROW$"],
+            "validations": [
+                {
+                    "test": "getValue('r425#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r426",
+            "componentValidation": ["r426@$ROW$"],
+            "validations": [
+                {
+                    "test": "getValue('r426#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r427",
+            "componentValidation": ["r427@$ROW$"],
+            "validations": [
+                {
+                    "test": "getValue('r427#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r428A",
+            "componentValidation": ["r428A@$ROW$"],
+            "validations": [
+                {
+                    "test": "getValue('r428A#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r428B",
+            "componentValidation": ["r428B@$ROW$"],
+            "validations": [
+                {
+                    "test": "getValue('r428B#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r428C",
+            "componentValidation": ["r428C@$ROW$"],
+            "validations": [
+                {
+                    "test": "getValue('r428C#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r428D",
+            "componentValidation": ["r428D@$ROW$"],
+            "validations": [
+                {
+                    "test": "getValue('r428D#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r428E",
+            "componentValidation": ["r428E@$ROW$"],
+            "validations": [
+                {
+                    "test": "getValue('r428E#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r428F",
+            "componentValidation": ["r428F@$ROW$"],
+            "validations": [
+                {
+                    "test": "getValue('r428F#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r428G",
+            "componentValidation": ["r428G@$ROW$"],
+            "validations": [
+                {
+                    "test": "getValue('r428G#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r428H",
+            "componentValidation": ["r428H@$ROW$"],
+            "validations": [
+                {
+                    "test": "getValue('r428H#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r428I",
+            "componentValidation": ["r428I@$ROW$"],
+            "validations": [
+                {
+                    "test": "getValue('r428I#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r428J",
+            "componentValidation": ["r428J@$ROW$"],
+            "validations": [
+                {
+                    "test": "getValue('r428J#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r429",
+            "componentValidation": ["r429@$ROW$"],
+            "validations": [
+                {
+                    "test": "getValue('r429#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r430",
+            "componentValidation": ["r430@$ROW$"],
+            "validations": [
+                {
+                    "test": "getValue('r430#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r431A",
+            "componentValidation": ["r431A@$ROW$"],
+            "validations": [
+                {
+                    "test": "getValue('r431A#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r431B",
+            "componentValidation": ["r431B@$ROW$"],
+            "validations": [
+                {
+                    "test": "getValue('r431B#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r431C",
+            "componentValidation": ["r431C@$ROW$"],
+            "validations": [
+                {
+                    "test": "getValue('r431C#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r431D",
+            "componentValidation": ["r431D@$ROW$"],
+            "validations": [
+                {
+                    "test": "getValue('r431D#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r431E",
+            "componentValidation": ["r431E@$ROW$"],
+            "validations": [
+                {
+                    "test": "getValue('r431E#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r431F",
+            "componentValidation": ["r431F@$ROW$"],
+            "validations": [
+                {
+                    "test": "getValue('r431F#'+getRowIndex(0)) < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+
+        {
+            "dataKey": "r301A",
+            "componentValidation": ["r301A"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r301A'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r301B",
+            "componentValidation": ["r301B"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r301B'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r302",
+            "componentValidation": ["r302"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r302'); value && value.trim().length === 0",
+                    "message": "Luas lantai Bangunan",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r303",
+            "componentValidation": ["r303"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r303'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r304",
+            "componentValidation": ["r304"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r304'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r305",
+            "componentValidation": ["r305"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r305'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r306A",
+            "componentValidation": ["r306A"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r306A'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r306B",
+            "componentValidation": ["r306B"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r306B'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r307A",
+            "componentValidation": ["r307A"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r307A'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r307B",
+            "componentValidation": ["r307B"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r307B'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r308",
+            "componentValidation": ["r308"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r308'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r309A",
+            "componentValidation": ["r309A"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r309A'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r309B",
+            "componentValidation": ["r309B"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r309B'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r310",
+            "componentValidation": ["r310"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r310'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r501",
+            "componentValidation": ["r501"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r501'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r501A",
+            "componentValidation": ["r501A"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r501A'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r501B",
+            "componentValidation": ["r501B"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r501B'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r501C",
+            "componentValidation": ["r501C"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r501C'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r501D",
+            "componentValidation": ["r501D"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r501D'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r501E",
+            "componentValidation": ["r501E"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r501E'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r501F",
+            "componentValidation": ["r501F"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r501F'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r501G",
+            "componentValidation": ["r501G"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r501G'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r502",
+            "componentValidation": ["r502"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r502'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r502A",
+            "componentValidation": ["r502A"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r502A'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r502B",
+            "componentValidation": ["r502B"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r502B'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r502C",
+            "componentValidation": ["r502C"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r502C'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r502D",
+            "componentValidation": ["r502D"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r502D'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r502E",
+            "componentValidation": ["r502E"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r502E'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r502F",
+            "componentValidation": ["r502F"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r502F'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r502G",
+            "componentValidation": ["r502G"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r502G'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r502H",
+            "componentValidation": ["r502H"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r502H'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r502I",
+            "componentValidation": ["r502I"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r502I'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r502J",
+            "componentValidation": ["r502J"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r502J'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r502K",
+            "componentValidation": ["r502K"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r502K'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r502L",
+            "componentValidation": ["r502L"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r502L'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r502M",
+            "componentValidation": ["r502M"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r502M'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r502N",
+            "componentValidation": ["r502N"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r502N'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r503",
+            "componentValidation": ["r503"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r503'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r503A",
+            "componentValidation": ["r503A"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r503A'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r503B",
+            "componentValidation": ["r503B"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r503B'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r504",
+            "componentValidation": ["r504"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r04'); value && value.trim().length === 0",
+                    "message": "Hewan Ternak (ekor) ",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r505",
+            "componentValidation": ["r505"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r505'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r506",
+            "componentValidation": ["r506"],
+            "validations": [
+                {
+                    "test": "let value = getValue('r506'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r6a",
+            "componentValidation": [
+                "r45a",
+                "r10a",
+                "r10b",
+                "r10c",
+                "r11",
+                "r6a"
+            ],
+            "validations": [
+                {
+                    "test": "let a = getValue('r6a#'+getRowIndex(0))\n a < 1 || a > 12",
+                    "message": "Isian hanya boleh 1 s.d 12",
+                    "type": 2
+                },
+                {
+                    "test": "let a = getValue('r45a#'+getRowIndex(0))\n let b = getValue('r10a#'+getRowIndex(0)) \n let c = getValue('r10b#'+getRowIndex(0)) \n let d = getValue('r10c#'+getRowIndex(0)) \n let e = getValue('r11#'+getRowIndex(0)) \n let f = getValue('r6a#'+getRowIndex(0)) \n f == 1 && a != 2 && ( b == 1 || c == 1 || d == 1 || e == 1 )",
+                    "message": "r10a/r10b/r10c/r11 kode 1, r6a = 1, tapi r45a tidak sama dengan 2",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r8a",
+            "componentValidation": ["r8a@$ROW$"],
+            "validations": [
+                {
+                    "test": "let a = getValue('r8a#'+getRowIndex(0))\n a < 1 || a > 4",
+                    "message": "Isian hanya boleh 1 s.d 4",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r8b",
+            "componentValidation": ["r8b@$ROW$"],
+            "validations": [
+                {
+                    "test": "let a = getValue('r8b#'+getRowIndex(0))\n a < 5 || a > 8",
+                    "message": "Isian hanya boleh 5 s.d 8",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r8c",
+            "componentValidation": ["r8c@$ROW$"],
+            "validations": [
+                {
+                    "test": "let a = getValue('r8c#'+getRowIndex(0))\n a < 1 || a > 4",
+                    "message": "Isian hanya boleh 1 s.d 4",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r8d",
+            "componentValidation": ["r8d@$ROW$"],
+            "validations": [
+                {
+                    "test": "let a = getValue('r8d#'+getRowIndex(0))\n a < 5 || a > 8",
+                    "message": "Isian hanya boleh 5 s.d 8",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r8e",
+            "componentValidation": ["r8e@$ROW$"],
+            "validations": [
+                {
+                    "test": "let a = getValue('r8e#'+getRowIndex(0))\n a < 1 || a > 4",
+                    "message": "Isian hanya boleh 1 s.d 4",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r8f",
+            "componentValidation": ["r8f@$ROW$"],
+            "validations": [
+                {
+                    "test": "let a = getValue('r8f#'+getRowIndex(0))\n a < 5 || a > 8",
+                    "message": "Isian hanya boleh 5 s.d 8",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r10a",
+            "componentValidation": [
+                "konfirmasir11",
+                "r10a",
+                "r8a",
+                "r8b",
+                "r8c",
+                "r8d",
+                "r8e",
+                "r8f",
+                "r45a",
+                "r6a"
+            ],
+            "validations": [
+                {
+                    "test": "let a = getValue('r10a#'+getRowIndex(0))\n a < 1 || a > 2",
+                    "message": "Isian hanya boleh 1 atau 2",
+                    "type": 2
+                },
+                {
+                    "test": "let k = getValue('konfirmasir11#'+getRowIndex(0)) \n let a = getValue('r10a#'+getRowIndex(0))\n let b = getValue('r8a#'+getRowIndex(0)) \n let c = getValue('r8b#'+getRowIndex(0)) \n let d = getValue('r8c#'+getRowIndex(0))\n let e = getValue('r8d#'+getRowIndex(0)) \n let f = getValue('r8e#'+getRowIndex(0)) \n let g = getValue('r8f#'+getRowIndex(0)) \n k.length < 10 && a == 1 && ( b == 1 || c == 5 || d == 1 || e==5 || f==1 || g==5 )",
+                    "message": "Konfirmasi jika r10a kode 1 tapi r8a/r8c/r8e ada yang kode 1 atau r8b/r8d/r8f ada yang kode 5",
+                    "type": 1
+                },
+                {
+                    "test": "let a = getValue('r45a#'+getRowIndex(0))\n let b = getValue('r10a#'+getRowIndex(0)) \n let f = getValue('r6a#'+getRowIndex(0)) \n f == 1 && a != 2 && b == 1",
+                    "message": "r10a kode 1, r6a = 1, tapi r45a tidak sama dengan 2",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r10b",
+            "componentValidation": [
+                "konfirmasir11",
+                "r10b",
+                "r8a",
+                "r8b",
+                "r8c",
+                "r8d",
+                "r8e",
+                "r8f",
+                "r45a",
+                "r6a"
+            ],
+            "validations": [
+                {
+                    "test": "let a = getValue('r10b#'+getRowIndex(0))\n a < 1 || a > 2",
+                    "message": "Isian hanya boleh 1 atau 2",
+                    "type": 2
+                },
+                {
+                    "test": "let k = getValue('konfirmasir11#'+getRowIndex(0)) \n let a = getValue('r10b#'+getRowIndex(0))\n let b = getValue('r8a#'+getRowIndex(0)) \n let c = getValue('r8b#'+getRowIndex(0)) \n let d = getValue('r8c#'+getRowIndex(0))\n let e = getValue('r8d#'+getRowIndex(0)) \n let f = getValue('r8e#'+getRowIndex(0)) \n let g = getValue('r8f#'+getRowIndex(0)) \n k.length < 10 && a == 1 && ( b == 1 || c == 5 || d == 1 || e==5 || f==1 || g==5 )",
+                    "message": "Konfirmasi jika r10b kode 1 tapi r8a/r8c/r8e ada yang kode 1 atau r8b/r8d/r8f ada yang kode 5",
+                    "type": 1
+                },
+                {
+                    "test": "let a = getValue('r45a#'+getRowIndex(0))\n let b = getValue('r10b#'+getRowIndex(0)) \n let f = getValue('r6a#'+getRowIndex(0)) \n f == 1 && a != 2 && b == 1",
+                    "message": "r10b kode 1, r6a = 1, tapi r45a tidak sama dengan 2",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r10c",
+            "componentValidation": [
+                "konfirmasir11",
+                "r10c",
+                "r8a",
+                "r8b",
+                "r8c",
+                "r8d",
+                "r8e",
+                "r8f",
+                "r45a",
+                "r6a"
+            ],
+            "validations": [
+                {
+                    "test": "let a = getValue('r10c#'+getRowIndex(0))\n a < 1 || a > 2",
+                    "message": "Isian hanya boleh 1 atau 2",
+                    "type": 2
+                },
+                {
+                    "test": "let k = getValue('konfirmasir11#'+getRowIndex(0)) \n let a = getValue('r10c#'+getRowIndex(0))\n let b = getValue('r8a#'+getRowIndex(0)) \n let c = getValue('r8b#'+getRowIndex(0)) \n let d = getValue('r8c#'+getRowIndex(0))\n let e = getValue('r8d#'+getRowIndex(0)) \n let f = getValue('r8e#'+getRowIndex(0)) \n let g = getValue('r8f#'+getRowIndex(0)) \n k.length < 10 && a == 1 && ( b == 1 || c == 5 || d == 1 || e==5 || f==1 || g==5 )",
+                    "message": "Konfirmasi jika r10c kode 1 tapi r8a/r8c/r8e ada yang kode 1 atau r8b/r8d/r8f ada yang kode 5",
+                    "type": 1
+                },
+                {
+                    "test": "let a = getValue('r45a#'+getRowIndex(0))\n let b = getValue('r10c#'+getRowIndex(0)) \n let f = getValue('r6a#'+getRowIndex(0)) \n f == 1 && a != 2 && b == 1",
+                    "message": "r10c kode 1, r6a = 1, tapi r45a tidak sama dengan 2",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r11",
+            "componentValidation": [
+                "konfirmasir11",
+                "r11",
+                "r8a",
+                "r8b",
+                "r8c",
+                "r8d",
+                "r8e",
+                "r8f",
+                "r45a",
+                "r6a"
+            ],
+            "validations": [
+                {
+                    "test": "let a = getValue('r11#'+getRowIndex(0))\n a < 1 || a > 2",
+                    "message": "Isian hanya boleh 1 atau 2",
+                    "type": 2
+                },
+                {
+                    "test": "let k = getValue('konfirmasir11#'+getRowIndex(0)) \n let a = getValue('r11#'+getRowIndex(0))\n let b = getValue('r8a#'+getRowIndex(0)) \n let c = getValue('r8b#'+getRowIndex(0)) \n let d = getValue('r8c#'+getRowIndex(0))\n let e = getValue('r8d#'+getRowIndex(0)) \n let f = getValue('r8e#'+getRowIndex(0)) \n let g = getValue('r8f#'+getRowIndex(0)) \n k.length < 10 && a == 1 && ( b == 1 || c == 5 || d == 1 || e==5 || f==1 || g==5 )",
+                    "message": "Konfirmasi jika r11 kode 1 tapi r8a/r8c/r8e ada yang kode 1 atau r8b/r8d/r8f ada yang kode 5",
+                    "type": 1
+                },
+                {
+                    "test": "let a = getValue('r45a#'+getRowIndex(0))\n let b = getValue('r11#'+getRowIndex(0)) \n let f = getValue('r6a#'+getRowIndex(0)) \n f == 1 && a != 2 && b == 1",
+                    "message": "r11 kode 1, r6a = 1, tapi r45a tidak sama dengan 2",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "konfirmasir11",
+            "componentValidation": [
+                "konfirmasir11",
+                "r10a",
+                "r10b",
+                "r10c",
+                "r11",
+                "r8a",
+                "r8b",
+                "r8c",
+                "r8d",
+                "r8e",
+                "r8f",
+                "r45a",
+                "r6a"
+            ],
+            "validations": [
+                {
+                    "test": "let k = getValue('konfirmasir11#'+getRowIndex(0)) \n let a = getValue('r10a#'+getRowIndex(0))\n let ab = getValue('r10b#'+getRowIndex(0))\n let ac = getValue('r10c#'+getRowIndex(0))\n let ad = getValue('r11#'+getRowIndex(0))\n let b = getValue('r8a#'+getRowIndex(0)) \n let c = getValue('r8b#'+getRowIndex(0)) \n let d = getValue('r8c#'+getRowIndex(0))\n let e = getValue('r8d#'+getRowIndex(0)) \n let f = getValue('r8e#'+getRowIndex(0)) \n let g = getValue('r8f#'+getRowIndex(0)) \n let arr = [a,ab,ac,ad] \n k.length < 10 && arr.includes(1) && ( b == 1 || c == 5 || d == 1 || e==5 || f==1 || g==5 )",
+                    "message": "Konfirmasi jika r10a/r10b/r10c/r11 kode 1 tapi r8a/r8c/r8e ada yang kode 1 atau r8b/r8d/r8f ada yang kode 5",
+                    "type": 1
+                }
+            ]
+        },
+        {
+            "dataKey": "r14a",
+            "componentValidation": ["r14a", "kbji"],
+            "validations": [
+                {
+                    "test": "let a = getValue('r14a#'+getRowIndex(0))\n a < 1 || a > 7",
+                    "message": "Isian hanya boleh 1 s.d. 7",
+                    "type": 2
+                },
+                {
+                    "test": "let a = getValue('kbji#'+getRowIndex(0))\n let b = getValue('r14a#'+getRowIndex(0)) \n  String(a).substring(0,2) == '92' && b < 4; ",
+                    "message": "KBJI Buruh Pertanian tapi Status Berusaha",
+                    "type": 2
+                },
+                {
+                    "test": "let a = String(getValue('kbji#'+getRowIndex(0)))\n let b = getValue('r14a#'+getRowIndex(0)) \n  b < 4 && ['8111','9311'].includes(a); ",
+                    "message": "KBJI Pekerja/Buruh Tambang tapi Status Berusaha",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "kbli",
+            "componentValidation": ["kbli", "kbji", "r13a"],
+            "validations": [
+                {
+                    "test": "let a = getValue('kbli#'+getRowIndex(0)).length\n a < 5",
+                    "message": "KBLI harus 5 digit",
+                    "type": 2
+                },
+                {
+                    "test": "let a = getValue('kbji#'+getRowIndex(0))\n let b = String(getValue('kbli#'+getRowIndex(0))).substring(0,2) \n  String(a).substring(0,2) == '92' && !['01','02','03'].includes(b) ",
+                    "message": "KBJI Buruh Pertanian tapi Lapus Non Pertanian",
+                    "type": 2
+                },
+                {
+                    "test": "let a = String(getValue('kbji#'+getRowIndex(0)))\n let b = String(getValue('kbli#'+getRowIndex(0))).substring(0,2) \n !['05', '06', '07', '08','09'].includes(b) && ['8111','9311'].includes(a); ",
+                    "message": "KBJI Pekerja/Buruh Tambang tapi Lapus Non Pertambangan",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "kbji",
+            "componentValidation": ["kbji", "r17a", "r17b", "r14a", "kbli"],
+            "validations": [
+                {
+                    "test": "let a = getValue('kbji#'+getRowIndex(0)).length\n a < 4; ",
+                    "message": "KBJI harus 4 digit",
+                    "type": 2
+                },
+                {
+                    "test": "let a = getValue('kbji#'+getRowIndex(0))\n let b = getValue('r17b#'+getRowIndex(0)) \n let c = getValue('r17a#'+getRowIndex(0)) \n String(a).substring(0, 2) == '63' && b < 3 ; ",
+                    "message": "KBJI Subsisten tapi tidak digunakan sendiri",
+                    "type": 2
+                },
+                {
+                    "test": "let a = getValue('kbji#'+getRowIndex(0))\n let b = getValue('r17b#'+getRowIndex(0)) \n let c = getValue('r17a#'+getRowIndex(0)) \n String(a).substring(0, 2) != '63' && b > 2; ",
+                    "message": "Digunakan sendiri tetapi KBJI bukan Subsisten",
+                    "type": 2
+                },
+                {
+                    "test": "let a = getValue('kbji#'+getRowIndex(0))\n let b = getValue('r14a#'+getRowIndex(0)) \n  String(a).substring(0,2) == '92' && b < 4; ",
+                    "message": "KBJI Buruh Pertanian tapi Status Berusaha",
+                    "type": 2
+                },
+                {
+                    "test": "let a = getValue('kbji#'+getRowIndex(0))\n let b = String(getValue('kbli#'+getRowIndex(0))).substring(0,2) \n  String(a).substring(0,2) == '92' && !['01','02','03'].includes(b) ",
+                    "message": "KBJI Buruh Pertanian tapi Lapus Non Pertanian",
+                    "type": 2
+                },
+                {
+                    "test": "let a = String(getValue('kbji#'+getRowIndex(0)))\n let b = getValue('r14a#'+getRowIndex(0)) \n  b < 4 && ['8111','9311'].includes(a); ",
+                    "message": "KBJI Pekerja/Buruh Tambang tapi Status Berusaha",
+                    "type": 2
+                },
+                {
+                    "test": "let a = String(getValue('kbji#'+getRowIndex(0)))\n let b = String(getValue('kbli#'+getRowIndex(0))).substring(0,2) \n !['05', '06', '07', '08','09'].includes(b) && ['8111','9311'].includes(a); ",
+                    "message": "KBJI Pekerja/Buruh Tambang tapi Lapus Non Pertambangan",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r17a",
+            "componentValidation": [
+                "r17a",
+                "r17b",
+                "r10a",
+                "r10b",
+                "r10c",
+                "r11"
+            ],
+            "validations": [
+                {
+                    "test": "let a = getValue('r17a#'+getRowIndex(0))\n a < 1 || a > 5",
+                    "message": "Isian hanya boleh 1 s.d. 5",
+                    "type": 2
+                },
+                {
+                    "test": "let b = String(getValue('r17a#'+getRowIndex(0))) \n let c = String(getValue('r17b#'+getRowIndex(0))) \n let d = getValue('r10a#'+getRowIndex(0)) \n let e = getValue('r10b#'+getRowIndex(0)) \n let f = getValue('r10c#'+getRowIndex(0)) \n let g = getValue('r11#'+getRowIndex(0)) \n !['1', '5'].includes(b) && (d == 1 || e == 1 || f == 1 || g == 1) && ['3','4'].includes(c) ; ",
+                    "message": "r17a = 2/3/4, r17b = 3/4, tapi r10a/r10b/r10c/r11 kode 1",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r17b",
+            "componentValidation": [
+                "kbji",
+                "r17a",
+                "r17b",
+                "r10a",
+                "r10b",
+                "r10c",
+                "r11"
+            ],
+            "validations": [
+                {
+                    "test": "let a = getValue('r17b#'+getRowIndex(0))\n a < 1 || a > 4",
+                    "message": "Isian hanya boleh 1 s.d. 5",
+                    "type": 2
+                },
+                {
+                    "test": "let a = getValue('kbji#'+getRowIndex(0))\n let b = getValue('r17b#'+getRowIndex(0)) \n String(a).substring(0, 2) == '63' && b < 3 ; ",
+                    "message": "KBJI Subsisten tapi tidak digunakan sendiri",
+                    "type": 2
+                },
+                {
+                    "test": "let a = getValue('kbji#'+getRowIndex(0))\n let b = getValue('r17b#'+getRowIndex(0)) \n  String(a).substring(0, 2) != '63' && b > 2 ; ",
+                    "message": "Digunakan sendiri tetapi KBJI bukan Subsisten",
+                    "type": 2
+                },
+                {
+                    "test": "let b = String(getValue('r17a#'+getRowIndex(0))) \n let c = String(getValue('r17b#'+getRowIndex(0))) \n let d = getValue('r10a#'+getRowIndex(0)) \n let e = getValue('r10b#'+getRowIndex(0)) \n let f = getValue('r10c#'+getRowIndex(0)) \n let g = getValue('r11#'+getRowIndex(0)) \n !['1', '5'].includes(b) && (d == 1 || e == 1 || f == 1 || g == 1) && ['3','4'].includes(c) ; ",
+                    "message": "r17a = 2/3/4, r17b = 3/4, tapi r10a/r10b/r10c/r11 kode 1",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r26a",
+            "componentValidation": ["r26a", "kbji"],
+            "validations": [
+                {
+                    "test": "let a = getValue('r26a#'+getRowIndex(0))\n a != '' && (a < 1 || a > 5)",
+                    "message": "Isian hanya boleh 1 s.d. 5",
+                    "type": 2
+                },
+                {
+                    "test": "let a = String(getValue('kbji#'+getRowIndex(0))).substring(0,2)\nlet b = Number(getValue('r26a#'+getRowIndex(0)))\n b > 1 && ['01','02','03'].includes(a) ",
+                    "message": "KBJI TNI/Polri tapi tidak PKWTT",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r38a",
+            "componentValidation": ["r38a", "umur", "konfirmasir38"],
+            "validations": [
+                {
+                    "test": "let a = getValue('r38a#'+getRowIndex(0))\n a < 1 || a > 2",
+                    "message": "Isian hanya boleh 1 atau 2",
+                    "type": 2
+                },
+                {
+                    "test": "let a = getValue('r38a#'+getRowIndex(0)) \n let b = getValue('konfirmasir38#'+getRowIndex(0)) \n a == 1 && getValue('umur#'+getRowIndex(0)) >= 50 && b.length < 10",
+                    "message": "r38a = 1 tapi umur >= 50",
+                    "type": 1
+                }
+            ]
+        },
+        {
+            "dataKey": "r38b",
+            "componentValidation": ["r38b", "umur", "konfirmasir38"],
+            "validations": [
+                {
+                    "test": "let a = getValue('r38b#'+getRowIndex(0))\n a < 1 || a > 2",
+                    "message": "Isian hanya boleh 1 atau 2",
+                    "type": 2
+                },
+                {
+                    "test": "let a = getValue('r38b#'+getRowIndex(0)) \n let b = getValue('konfirmasir38#'+getRowIndex(0)) \n a == 1 && getValue('umur#'+getRowIndex(0)) >= 50 && b.length < 10",
+                    "message": "r38b = 1 tapi umur >= 50",
+                    "type": 1
+                }
+            ]
+        },
+        {
+            "dataKey": "konfirmasir38",
+            "componentValidation": ["r38a", "r38b", "konfirmasir38"],
+            "validations": [
+                {
+                    "test": "let a = getValue('r38a#'+getRowIndex(0))\n let b = getValue('konfirmasir38#'+getRowIndex(0)) \n a == 1 && getValue('umur#'+getRowIndex(0)) >=  50 && b.length < 10",
+                    "message": "Konfirmasi jika r38a = 1 tapi umur >= 50",
+                    "type": 1
+                },
+                {
+                    "test": "let a = getValue('r38b#'+getRowIndex(0))\n let b = getValue('konfirmasir38#'+getRowIndex(0)) \n a == 1 && getValue('umur#'+getRowIndex(0)) >=  50 && b.length < 10",
+                    "message": "Konfirmasi jika r38b = 1 tapi umur >= 50",
+                    "type": 1
+                }
+            ]
+        },
+        {
+            "dataKey": "r42a",
+            "componentValidation": ["r42a", "konfirmasir42"],
+            "validations": [
+                {
+                    "test": "let a = getValue('r42a#'+getRowIndex(0))\n a < 1 || a > 8",
+                    "message": "Isian hanya boleh 1 s.d. 8",
+                    "type": 2
+                },
+                {
+                    "test": "let a = getValue('konfirmasir42#'+getRowIndex(0))\n let b = getValue('r42a#'+getRowIndex(0))\n b == 3 && a.length < 10;",
+                    "message": "Harus ada konfirmasi jika r42a berkode 3, ketikan hasil konfirmasi minimal 10 huruf",
+                    "type": 1
+                }
+            ]
+        },
+        {
+            "dataKey": "konfirmasir42",
+            "componentValidation": ["konfirmasir42", "r42a"],
+            "validations": [
+                {
+                    "test": "let a = getValue('konfirmasir42#'+getRowIndex(0))\n let b = getValue('r42a#'+getRowIndex(0))\n b == 3 && a.length < 10;",
+                    "message": "Harus ada konfirmasi jika r42a berkode 3, ketikan hasil konfirmasi minimal 10 huruf",
+                    "type": 1
+                }
+            ]
+        },
+        {
+            "dataKey": "r45a",
+            "componentValidation": [
+                "r45a",
+                "r10a",
+                "r10b",
+                "r10c",
+                "r11",
+                "r6a"
+            ],
+            "validations": [
+                {
+                    "test": "let a = getValue('r45a#'+getRowIndex(0))\n a < 1 || a > 3",
+                    "message": "Isian hanya boleh 1 s.d. 3",
+                    "type": 2
+                },
+                {
+                    "test": "let a = getValue('r45a#'+getRowIndex(0))\n let b = getValue('r10a#'+getRowIndex(0)) \n let c = getValue('r10b#'+getRowIndex(0)) \n let d = getValue('r10c#'+getRowIndex(0)) \n let e = getValue('r11#'+getRowIndex(0)) \n let f = getValue('r6a#'+getRowIndex(0)) \n f == 1 && a != 2 && ( b == 1 || c == 1 || d == 1 || e == 1 )",
+                    "message": "r10a/r10b/r10c/r11 kode 1, r6a = 1, tapi r45a tidak sama dengan 2",
+                    "type": 2
+                }
+            ]
+        },
+        {
+            "dataKey": "r50d",
+            "componentValidation": ["r50d@$ROW$"],
+            "validations": [
+                {
+                    "test": "let a = getValue('r50d#'+getRowIndex(0))\n a < 1 || a > 4",
+                    "message": "Isian hanya boleh 1 s.d. 4",
+                    "type": 2
+                }
+            ]
+        }
+    ]
+}
