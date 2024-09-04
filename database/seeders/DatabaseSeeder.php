@@ -21,6 +21,6 @@ class DatabaseSeeder extends Seeder
         $this->call(\Database\Seeders\Models\UserSeeder::class);
         $this->call(\Database\Seeders\Models\RegionSeeder::class);
         $this->call(\Database\Seeders\Models\ResponseSeeder::class);
-        $this->call(\Database\Seeders\QuestionSeeder::class);
+        // $this->call(\Database\Seeders\QuestionSeeder::class);
     }
 }
