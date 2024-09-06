@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('responses', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->integer('region_id');
+            $table->string('region_id',10);
             $table->string('r105')->nullable();
             $table->string('r106')->nullable();
             $table->string('r107')->nullable();

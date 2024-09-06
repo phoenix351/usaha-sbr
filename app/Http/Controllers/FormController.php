@@ -41,6 +41,7 @@ class FormController extends Controller
         if ($region_id != null) {
             $region = Region::where('id', $region_id)->first();
         }
+        // dd($region);
         return Inertia::render('Form/Index', [
             "kabupatens" => $kabupaten,
             "data" => $data,

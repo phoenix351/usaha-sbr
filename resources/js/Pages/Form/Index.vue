@@ -9,14 +9,13 @@ const formData = useRemember(
         kabupaten: null,
         kecamatan: null,
         desa: null,
-        blok: null,
+        region_id:null
     },
     "form-data"
 );
 
 const kecamatans = useRemember([], "kecamatans");
 const desas = useRemember([], "desas");
-const bloks = useRemember([], "bloks");
 
 const kabupaten = computed({
     get: () => formData.value.kabupaten,
@@ -32,11 +31,9 @@ const desa = computed({
     get: () => formData.value.desa,
     set: (value) => (formData.value.desa = value),
 });
+const region_id = computed(() => {return `71${kabupaten.value}${kecamatan.value}${desa.value}`}, 
+ );
 
-const blok = computed({
-    get: () => formData.value.blok,
-    set: (value) => (formData.value.blok = value),
-});
 
 defineProps({
     kabupatens: Object,
@@ -76,20 +73,9 @@ const loadDesas = async () => {
     }
 };
 
-const loadBloks = async () => {
-    try {
-        formData.value.blok = null;
-        const response = await axios.get(
-            `/blok/${kabupaten.value}/${kecamatan.value}/${desa.value}`
-        );
-        bloks.value = response.data.blok;
-    } catch (error) {
-        console.error("Error fetching blok sensus:", error);
-    }
-};
-
 function submit() {
-    router.visit(`/form/${blok.value}`, {
+
+    router.visit(`/form/${region_id.value}`, {
         preserveState: true,
         preserveScroll: true,
         only: ["data", "region"],
@@ -101,7 +87,7 @@ function entri() {
     //     preserveState: true,
     //     preserveScroll: true,
     // });
-    window.open(`/form/create/${blok.value}`, "_blank");
+    window.open(`/form/create/${region_id.value}`, "_blank");
 }
 
 function edit(id) {
@@ -114,132 +100,69 @@ function edit(id) {
         route("form.edit", { region_id: par["region_id"], id }),
         "_blank"
     );
-}
+} 
+kabupaten.value = "{{region.kabupaten}}"
 </script>
 
 <template>
+
     <Head title="Dashboard" />
 
     <AuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Dashboard
+                Dashboard {{ region.kabupaten }}
             </h2>
         </template>
 
         <div class="py-8">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div
-                    class="bg-white overflow-hidden shadow-sm sm:rounded-lg py-2"
-                >
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg py-2">
                     <form @submit.prevent="submit">
-                        <div
-                            class="form-group flex-col grid grid-cols-1 pb-2 gap-x-6 gap-y-8 sm:grid-cols-6"
-                        >
+                        <div class="form-group flex-col grid grid-cols-1 pb-2 gap-x-6 gap-y-8 sm:grid-cols-6">
                             <div class="sm:col-span-3 px-3 order-1 sm:order-1">
-                                <label
-                                    for="kabupaten"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                    >KABUPATEN</label
-                                >
-                                <select
-                                    v-model="kabupaten"
-                                    name="kabupaten"
-                                    @change="loadKecamatans"
+                                <label for="kabupaten"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">KABUPATEN</label>
+                                <select v-model="kabupaten" name="kabupaten" @change="loadKecamatans"
                                     class="form-control sm:col-span-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    id="kabupatens"
-                                >
-                                    <option
-                                        v-for="kabupaten in kabupatens"
-                                        :value="kabupaten.id"
-                                        :key="kabupaten.id"
-                                    >
+                                    id="kabupatens" value={{ region.kabupaten }}>
+                                    <option v-for="kabupaten in kabupatens" :value="kabupaten.id" :key="kabupaten.id">
                                         {{ kabupaten.nama }}
                                     </option>
                                 </select>
                             </div>
                             <div class="sm:col-span-3 px-3 order-2 sm:order-3">
-                                <label
-                                    for="kecamatan"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                    >KECAMATAN</label
-                                >
-                                <select
-                                    v-model="kecamatan"
-                                    name="kecamatan"
-                                    :disabled="!kabupaten"
-                                    @change="loadDesas"
+                                <label for="kecamatan"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">KECAMATAN</label>
+                                <select v-model="kecamatan" name="kecamatan" :disabled="!kabupaten" @change="loadDesas"
                                     class="form-control sm:col-span-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    id="kecamatans"
-                                >
-                                    <option
-                                        v-for="kecamatan in kecamatans"
-                                        :value="kecamatan.id"
-                                        :key="kecamatan.id"
-                                    >
+                                    id="kecamatans">
+                                    <option v-for="kecamatan in kecamatans" :value="kecamatan.id" :key="kecamatan.id">
                                         {{ kecamatan.nama }}
                                     </option>
                                 </select>
                             </div>
                             <div class="sm:col-span-3 px-3 order-3 sm:order-2">
-                                <label
-                                    for="desa"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                    >DESA</label
-                                >
-                                <select
-                                    v-model="desa"
-                                    name="desa"
-                                    :disabled="!kecamatan"
-                                    @change="loadBloks"
+                                <label for="desa"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">DESA</label>
+                                <select v-model="desa" name="desa" :disabled="!kecamatan" @change="loadBloks"
                                     class="form-control sm:col-span-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    id="desas"
-                                >
-                                    <option
-                                        v-for="desa in desas"
-                                        :value="desa.id"
-                                        :key="desa.id"
-                                    >
+                                    id="desas">
+                                    <option v-for="desa in desas" :value="desa.id" :key="desa.id">
                                         {{ desa.nama }}
                                     </option>
                                 </select>
                             </div>
                             <div class="sm:col-span-3 px-3 order-4 sm:order-4">
-                                <label
-                                    for="bloks"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                    >NBS / NKS</label
-                                >
-                                <select
-                                    v-model="blok"
-                                    name="blok"
-                                    :disabled="!desa"
-                                    class="form-control sm:col-span-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    id="bloks"
-                                >
-                                    <option
-                                        v-for="blok in bloks"
-                                        :value="blok.id"
-                                        :key="blok.id"
-                                    >
-                                        {{ blok.nama }}
-                                    </option>
-                                </select>
+
                             </div>
                             <div class="sm:col-span-3 px-3 order-5 sm:order-5">
-                                <button
-                                    type="submit"
-                                    :disabled="!blok"
-                                    class="disabled:bg-gray-200 min-w-15 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center"
-                                >
+                                <button type="submit" :disabled="!desa"
+                                    class="disabled:bg-gray-200 min-w-15 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center">
                                     Refresh
                                 </button>
-                                <button
-                                    type="button"
-                                    @click="entri"
-                                    :disabled="!blok"
-                                    class="disabled:bg-gray-200 focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                                >
+                                <button type="button" @click="entri" :disabled="!desa"
+                                    class="disabled:bg-gray-200 focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
                                     Entri
                                 </button>
                             </div>
@@ -251,16 +174,12 @@ function edit(id) {
                         <p>
                             WILAYAH: [{{ region.provinsi }}{{ region.kabupaten
                             }}{{ region.kecamatan }}{{ region.desa
-                            }}{{ region.nbs }}{{ region.nks }}]
+                            }}]
                         </p>
                     </div>
 
-                    <table
-                        class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                    >
-                        <thead
-                            class="text-xs text-gray-700 uppercase bg-gray-300 dark:bg-gray-700 dark:text-gray-400"
-                        >
+                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-300 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 <th scope="col" class="px-6 py-3">
                                     No. Urut Ruta
@@ -286,24 +205,15 @@ function edit(id) {
                         </thead>
                         <tbody>
                             <tr v-if="data == ''">
-                                <td
-                                    colspan="8"
-                                    scope="row"
-                                    class="px-6 text-center py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                >
+                                <td colspan="8" scope="row"
+                                    class="px-6 text-center py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     Data tidak tersedia
                                 </td>
                             </tr>
-                            <tr
-                                v-else
-                                v-for="datum in data"
-                                :key="datum.id"
-                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                            >
-                                <th
-                                    scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                >
+                            <tr v-else v-for="datum in data" :key="datum.id"
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                <th scope="row"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{ datum.r110 }}
                                 </th>
                                 <td class="px-6 py-4">
@@ -325,22 +235,14 @@ function edit(id) {
                                     {{ datum.updated_at }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    <button
-                                        @click="edit(datum.id)"
-                                        type="button"
-                                        :disabled="!blok"
-                                        class="disabled:bg-gray-200 focus:outline-none text-xs font-medium text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-3 py-2 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                                    >
+                                    <button @click="edit(datum.id)" type="button" :disabled="!blok"
+                                        class="disabled:bg-gray-200 focus:outline-none text-xs font-medium text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-3 py-2 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
                                         Edit
                                     </button>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <button
-                                        @click="destroy(datum.id)"
-                                        type="button"
-                                        :disabled="!blok"
-                                        class="disabled:bg-gray-200 focus:outline-none text-xs font-medium text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-2 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-                                    >
+                                    <button @click="destroy(datum.id)" type="button" :disabled="!blok"
+                                        class="disabled:bg-gray-200 focus:outline-none text-xs font-medium text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-2 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
                                         Hapus
                                     </button>
                                 </td>

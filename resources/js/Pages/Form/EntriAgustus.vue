@@ -565,7 +565,7 @@ function initForm(
         const par = route().params;
         // console.log({ jmlArt, nurt });
 
-        if (jmlArt != null && nurt != null) {
+        if (nurt != null) {
             if (route().current() == "form.edit") {
                 axios
                     .post(

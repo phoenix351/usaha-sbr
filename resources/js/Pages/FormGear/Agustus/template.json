@@ -127,14 +127,7 @@
                             "required": true,
                             "enableRemark": false
                         },
-                        {
-                            "label": "r112. Jumlah Anggota Keluarga",
-                            "dataKey": "r112",
-                            "type": 25,
-                            "typeOption": 1,
-                            "required": true,
-                            "enableRemark": false
-                        },
+                      
                         {
                             "label": "r113. ID Landmark Wilkerstas",
                             "dataKey": "r113",
