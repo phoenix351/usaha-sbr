@@ -6,6 +6,9 @@
         "build": "vue-tsc && vite build"
     },
     "dependencies": {
+        "@fortawesome/fontawesome-svg-core": "^6.6.0",
+        "@fortawesome/free-solid-svg-icons": "^6.6.0",
+        "@fortawesome/vue-fontawesome": "^3.0.8",
         "@headlessui/vue": "^1.7.19",
         "@oxc-parser/wasm": "^0.1.0",
         "@types/node": "^20.14.12",
