@@ -23,6 +23,7 @@ class FormController extends Controller
     public function index(string $region_id = null)
     {
         $pml = auth()->user()->name;
+        $region_id = '7106020020';
         $kabupaten = Region::all()->where('kabupaten', auth()->user()->kabupaten)->unique('kabupaten')->map(fn($kabupaten) => [
             'id' => $kabupaten->kabupaten,
             'nama' => '[' . $kabupaten->kabupaten . '] ' . $kabupaten->nama_kabupaten
