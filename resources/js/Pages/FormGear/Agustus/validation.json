@@ -8,7 +8,7 @@
             "componentValidation": ["jml_art"],
             "validations": [
                 {
-                    "test": "let value = getValue('jml_art'); value && value.trim().length === 0",
+                    "test": "let value = getValue('jml_art'); value && value < 1",
                     "message": "Jumlah Anggota Rumah Tangga Minimal 1",
                     "type": 2
                 }
@@ -91,17 +91,7 @@
                 }
             ]
         },
-        {
-            "dataKey": "r112",
-            "componentValidation": ["r112"],
-            "validations": [
-                {
-                    "test": "let value = getValue('r112'); value && !/^\\d+$/.test(value)",
-                    "message": "Hanya boleh diisi dengan angka",
-                    "type": 2
-                }
-            ]
-        },
+
         {
             "dataKey": "r113",
             "componentValidation": ["r113"],
@@ -181,17 +171,6 @@
                     "test": "let a = getValue('r38a#'+getRowIndex(0))\n let b = getValue('r38b#'+getRowIndex(0))\n getValue('umur#'+getRowIndex(0)) >=  50 && ( a ==1 || b == 1 )",
                     "message": "r38a atau r38b = 1 tapi umur >= 50",
                     "type": 1
-                }
-            ]
-        },
-        {
-            "dataKey": "r402",
-            "componentValidation": ["r402"],
-            "validations": [
-                {
-                    "test": "!/^\\d+$/.test(getValue('r402#'+getRowIndex(0)))",
-                    "message": "Hanya boleh diisi dengan angka",
-                    "type": 2
                 }
             ]
         },

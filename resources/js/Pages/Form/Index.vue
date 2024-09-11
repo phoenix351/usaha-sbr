@@ -295,7 +295,7 @@ onMounted(() => {
                                     {{ datum.r108 }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{ datum.r112 }}
+                                    {{ datum.jml_art }}
                                 </td>
                                 <td class="px-6 py-4">
                                     {{ datum.docState }}

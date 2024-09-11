@@ -34,7 +34,7 @@ class FormController extends Controller
         //     ->where('region_id', '=', $region_id)
         //     // ->where('pml', '=', $pml)
         //     ->get();
-        $data = Response::select('id', 'region_id', 'r110', 'r108', 'docState', 'r114', 'r112', 'submit_status', 'updated_at')
+        $data = Response::select('id', 'region_id', 'r110', 'r108', 'docState', 'r114', 'jml_art', 'submit_status', 'updated_at')
             ->where('region_id', '=', $region_id)
             ->get();
         // dd($data);
@@ -162,7 +162,7 @@ class FormController extends Controller
     public function store(Request $request, string $region_id, $id = null)
     {
         try {
-            $excluded_attr = ['prov', 'kab', 'kec', 'desa', 'jml_art'];
+            $excluded_attr = ['prov', 'kab', 'kec', 'desa'];
             if (!$id) {
                 $data_ruta = new Response();
             } else {
@@ -210,6 +210,7 @@ class FormController extends Controller
             $data_ruta->docState = $req['docState'];
             $data_ruta->submit_status = '2';
             $data_ruta->region_id = $region_id;
+            // dd($answers);
             $data_ruta->save();
 
             // delete all arts in corresponding response id
@@ -360,7 +361,7 @@ class FormController extends Controller
         // $response_ruta = (array)$response_ruta;
         $notQuestion = ['id', 'region_id', 'submit_status', 'updated_at', 'created_at', 'docState', 'arts'];
         $response_ruta = array_diff_key($response_ruta, array_flip($notQuestion));
-        $response_ruta['jml_art'] = $response_ruta['r112'];
+
         $field = array('id', 'region_id', 'nama_krt', 'pcl', 'pml', 'nurt', 'no_art', 'hasil_kunjungan');
 
         $response = [];

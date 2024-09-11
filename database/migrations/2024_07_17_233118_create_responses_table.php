@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('responses', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->string('region_id',10);
+            $table->string('region_id', 10);
             $table->string('r105')->nullable();
             $table->string('r106')->nullable();
             $table->string('r107')->nullable();
@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('r109')->nullable();
             $table->string('r110')->nullable();
             $table->string('r111')->nullable();
-            $table->string('r112')->nullable();
+            // $table->string('r112')->nullable();
             $table->string('r113')->nullable();
             $table->string('r114')->nullable();
             $table->integer('r115')->nullable();
@@ -104,6 +104,7 @@ return new class extends Migration
 
             $table->char('docState', 1)->default('E');
             $table->integer('submit_status')->default(2);
+            $table->integer('jml_art')->nullable();
             $table->date('updated_at')->nullable();
             $table->date('created_at')->nullable();
         });

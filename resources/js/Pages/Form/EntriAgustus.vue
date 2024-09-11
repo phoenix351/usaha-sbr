@@ -536,7 +536,7 @@ function initForm(
         const previousRes = previousResponseGear
             ? removeUpdatedAt(previousResponseGear)
             : null;
-        // console.log({ previousResponseGear });
+        // console.log({ currentRes });
 
         if (JSON.stringify(currentRes) === JSON.stringify(previousRes)) {
             toastInfo(
@@ -627,19 +627,8 @@ function initForm(
 
     let setSubmitMobile = function (res, rem, princ, ref) {
         responseGear = res;
-        // console.log(responseGear);
-        // mediaGear = med
-        // remarkGear = rem
-        // principalGear = princ
-        // referenceGear = ref
+        console.log({ res });
 
-        // console.log('----------', new Date(), '----------');
-
-        // console.log('response', responseGear)
-        // // console.log('media', mediaGear)
-        // console.log('remark', remarkGear)
-        // console.log('principal', principalGear)
-        // console.log('reference', referenceGear)
         const par = route().params;
         if (route().current() == "form.edit") {
             axios
@@ -761,14 +750,14 @@ data.then(
         let questions = [
             ...template.components[0][0].components[0],
             ...template.components[0][1].components[0],
-            ...template.components[0][1].components[0][2].components[0],
+            // ...template.components[0][1].components[0][2].components[0],
             ...template.components[0][2].components[0],
         ];
         let questionType = {};
         questions.forEach((question) => {
             questionType[question.dataKey] = question.type;
         });
-        console.log({ template });
+
         response.answers.forEach((answer, index) => {
             let dataKey = answer.dataKey;
             if (dataKey.includes("#")) {
@@ -783,7 +772,7 @@ data.then(
                 ];
             }
         });
-        console.log({ answer: response.answers });
+        // console.log({ answer: response.answers });
 
         initForm(
             reference,
