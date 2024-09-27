@@ -32,7 +32,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 //Routes for Admin
-Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => ['auth', 'verified','is.admin']], function () {
+Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => ['auth', 'verified', 'is.admin']], function () {
     Route::get('/', [AdminController::class, 'index'])->name('index');
     Route::get('/kab/{kab}', [AdminController::class, 'kab'])->name('kab');
     Route::get('/kec/{kab}/{kec}', [AdminController::class, 'kec'])->name('kec');
@@ -57,33 +57,33 @@ Route::middleware(['auth', 'verified', 'is.pml'])->group(function () {
     Route::get('/form/create/{region_id}', [FormController::class, 'create'])->name('form.create');
     Route::post('/form/store/{region_id}/{id?}', [FormController::class, 'store'])->name('form.store');
     Route::post('/form/submit/{region_id}', [FormController::class, 'submit'])->name('form.submit');
-    Route::delete('/form/destroy/{region_id}/{id}', [FormController::class, 'destroy'])->name('form.destroy');
+    Route::delete('/form/destroy/{response}', [FormController::class, 'destroy'])->name('form.destroy');
     Route::get('/form/edit/{region_id}/{id}', [FormController::class, 'edit'])->name('form.edit');
     Route::post('/form/update/{region_id}/{nurt}', [FormController::class, 'update'])->name('form.update');
 });
 
 Route::get('/kecamatan/{kabupaten}', function (string $kabupaten) {
-    $kecamatan = Region::all()->where('kabupaten', $kabupaten)->unique('kecamatan')->map(fn($kecamatan) =>[
+    $kecamatan = Region::all()->where('kabupaten', $kabupaten)->unique('kecamatan')->map(fn($kecamatan) => [
         'id' => $kecamatan->kecamatan,
-        'nama' => '['.$kecamatan->kecamatan.'] '.$kecamatan->nama_kecamatan
+        'nama' => '[' . $kecamatan->kecamatan . '] ' . $kecamatan->nama_kecamatan
     ]);
-    return response()->json(["kecamatan" => $kecamatan ]);
+    return response()->json(["kecamatan" => $kecamatan]);
 })->middleware(['auth', 'verified'])->name('kecamatan');
 
 Route::get('/desa/{kabupaten}/{kecamatan}', function (string $kabupaten, string $kecamatan) {
-    $desa = Region::all()->where('kabupaten', $kabupaten)->where('kecamatan', $kecamatan)->unique('desa')->map(fn($desa) =>[
+    $desa = Region::all()->where('kabupaten', $kabupaten)->where('kecamatan', $kecamatan)->unique('desa')->map(fn($desa) => [
         'id' => $desa->desa,
-        'nama' => '['.$desa->desa.'] '.$desa->nama_desa
+        'nama' => '[' . $desa->desa . '] ' . $desa->nama_desa
     ]);
-    return response()->json(["desa" => $desa ]);
+    return response()->json(["desa" => $desa]);
 })->middleware(['auth', 'verified'])->name('desa');
 
 Route::get('/blok/{kabupaten}/{kecamatan}/{desa}', function (string $kabupaten, string $kecamatan, string $desa) {
-    $blok = Region::all()->where('kabupaten', $kabupaten)->where('kecamatan', $kecamatan)->where('desa', $desa)->map(fn($blok) =>[
+    $blok = Region::all()->where('kabupaten', $kabupaten)->where('kecamatan', $kecamatan)->where('desa', $desa)->map(fn($blok) => [
         'id' => $blok->id,
-        'nama' => $blok->nbs." / ".$blok->nks
+        'nama' => $blok->nbs . " / " . $blok->nks
     ]);
-    return response()->json(["blok" => $blok ]);
+    return response()->json(["blok" => $blok]);
 })->middleware(['auth', 'verified'])->name('blok');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

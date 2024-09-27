@@ -376,7 +376,7 @@ document.addEventListener("click", function (event) {
 });
 
 const page = usePage();
-
+console.clear();
 const prefill = computed(() => page.props.prefill).value;
 
 // const region_id = computed(() => page.props.region_id).value;
@@ -397,7 +397,8 @@ if (answers != null) {
 
 preset["predata"] = prefill[Object.entries(prefill)[0][0]];
 
-template["components"][0][0]["components"][0][10]["options"] = rawPcl;
+template["components"][0][0]["components"][0][16]["options"] = rawPcl;
+// console.log({ rawPcl });
 
 template["components"][0][0]["components"][0][7]["options"] = rawNurt;
 
@@ -556,7 +557,7 @@ function initForm(
         responseGear = res;
 
         const jmlArt =
-            responseGear.answers.find((item) => item.dataKey === "r112")
+            responseGear.answers.find((item) => item.dataKey === "jml_art")
                 ?.answer ?? null;
         const nurt =
             responseGear.answers.find((item) => item.dataKey === "r110")
@@ -565,7 +566,7 @@ function initForm(
         const par = route().params;
         // console.log({ jmlArt, nurt });
 
-        if (nurt != null) {
+        if (nurt != null && jmlArt != null) {
             if (route().current() == "form.edit") {
                 axios
                     .post(
@@ -747,32 +748,53 @@ const data = Promise.all([
 
 data.then(
     ([reference, template, preset, response, validation, media, remark]) => {
+        console.log({ response });
+
         let questions = [
             ...template.components[0][0].components[0],
             ...template.components[0][1].components[0],
-            // ...template.components[0][1].components[0][2].components[0],
+            ...template.components[0][1].components[0][1].components[0],
             ...template.components[0][2].components[0],
         ];
         let questionType = {};
         questions.forEach((question) => {
             questionType[question.dataKey] = question.type;
         });
+        // console.log({ questions });
 
         response.answers.forEach((answer, index) => {
             let dataKey = answer.dataKey;
             if (dataKey.includes("#")) {
                 dataKey = dataKey.split("#")[0];
             }
+            // console.log({ dataKey, tipe: questionType[dataKey] });
             // console.log({ dataKey, ass: questionType[dataKey] });
 
-            if (questionType[dataKey] === 27) {
+            if ([26, 27].includes(questionType[dataKey])) {
                 let currentAnswer = response.answers[index].answer;
+                if (!currentAnswer) {
+                    return;
+                }
+                // currentAnswer = currentAnswer ? String(currentAnswer) : "";
                 response.answers[index].answer = [
                     { label: currentAnswer, value: currentAnswer },
                 ];
             }
+            if ([29].includes(questionType[dataKey])) {
+                let currentAnswer = JSON.parse(response.answers[index].answer);
+                currentAnswer = Array.isArray(currentAnswer)
+                    ? currentAnswer
+                    : [currentAnswer];
+                // console.log({ currentAnswer });
+
+                currentAnswer.map((value) => ({
+                    label: value ? String(value) : value,
+                    value: value ? String(value) : value,
+                }));
+                response.answers[index].answer = currentAnswer;
+            }
         });
-        // console.log({ answer: response.answers });
+        console.log({ answer: response.answers });
 
         initForm(
             reference,

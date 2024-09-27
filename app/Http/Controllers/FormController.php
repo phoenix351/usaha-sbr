@@ -145,13 +145,21 @@ class FormController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    private function getCurrentValue($answer): string | null
+    private function getCurrentValue($answer): string | array | null
     {
         $currentValue = '';
         if (is_array($answer)) {
             if (array_key_exists(0, $answer)) {
 
                 $currentValue = $answer[0]['value'];
+            }
+            if (count($answer) > 1) {
+                $currentValue = [];
+
+                foreach ($answer as $key => $value) {
+                    array_push($currentValue, $value['value']);
+                }
+                $currentValue = json_encode($currentValue);
             }
         } else {
             $currentValue = $answer;
@@ -218,6 +226,7 @@ class FormController extends Controller
             foreach ($daftar_art as  $index => $art) {
                 $art->response_id = $data_ruta->id;
                 $art->r402 = $index + 1;
+                // dd($art);
                 $art->save();
             }
 
@@ -520,11 +529,23 @@ class FormController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $region_id, string $id)
+    public function destroy(Response $response)
     {
-        $ResponseModel = getResponseModel();
-        $pml = auth()->user()->name;
-        $ResponseModel::where('region_id', $region_id)->where('pml', '=', $pml)->where('nurt', $id)->delete();
-        return redirect()->route('form.index', ['region_id' => $region_id]);
+        try {
+            //code...
+            $arts = ResponseArt::where('response_id', $response->id)->get();
+            DB::beginTransaction();
+            foreach ($arts as $art) {
+                $art->delete();
+            }
+            $response->delete();
+            DB::commit();
+
+            return response()->json(['message' => 'successfully deleted response!'], 403);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json(['message' => 'Oops Something bad happen!'], 500);
+            // throw $th;
+        }
     }
 }

@@ -38,13 +38,30 @@ const region_id = computed(() => {
 
 const page = usePage();
 
-const destroy = (id) => {
+const destroy = async (region_id, id) => {
     if (confirm("Apakah anda yakin menghapus entrian ini?")) {
-        router.delete(route("form.destroy", { region_id: blok.value, id }), {
-            preserveState: true,
-            preserveScroll: true,
-            only: ["data", "region"],
-        });
+        try {
+            const response = await axios.delete(
+                route("form.destroy", { response: id })
+            );
+            router.get(
+                route("form.index", { region_id: region_id }),
+                {},
+                {
+                    preserveState: true,
+                    preserveScroll: true,
+                    only: ["data", "region"],
+                }
+            );
+        } catch (error) {
+            console.error("error request for delete data!");
+        }
+
+        // router.delete(route("form.destroy", { response: id }), {
+        //     preserveState: true,
+        //     preserveScroll: true,
+        //     only: ["data", "region"],
+        // });
     }
 };
 
@@ -323,7 +340,7 @@ onMounted(() => {
                                 </td>
                                 <td class="px-6 py-4">
                                     <button
-                                        @click="destroy(datum.id)"
+                                        @click="destroy(region_id, datum.id)"
                                         type="button"
                                         :disabled="!desa"
                                         class="disabled:bg-gray-200 focus:outline-none text-xs font-medium text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-2 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
