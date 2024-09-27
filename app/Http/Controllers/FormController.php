@@ -150,8 +150,10 @@ class FormController extends Controller
         $currentValue = '';
         if (is_array($answer)) {
             if (array_key_exists(0, $answer)) {
+                if(!is_null($answer[0])){
 
-                $currentValue = $answer[0]['value'];
+                    $currentValue = $answer[0]['value'];
+                }
             }
             if (count($answer) > 1) {
                 $currentValue = [];
@@ -175,9 +177,6 @@ class FormController extends Controller
                 $data_ruta = new Response();
             } else {
                 $data_ruta = Response::find($id);
-                foreach ($data_ruta->arts as $art) {
-                    $art->delete();
-                }
             }
             $req = $request->all();
             $answers = $req['answers'];

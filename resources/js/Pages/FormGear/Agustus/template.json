@@ -157,15 +157,15 @@
                             "options": [
                                 {
                                     "label": "1. KK Sesuai",
-                                    "value": 1
+                                    "value": "1"
                                 },
                                 {
                                     "label": "2. Keluarga Induk",
-                                    "value": 2
+                                    "value": "2"
                                 },
                                 {
                                     "label": "3. Keluarga Pecahan",
-                                    "value": 3
+                                    "value": "3"
                                 }
                             ]
                         },
@@ -2329,24 +2329,13 @@
                             "type": 17,
                             "typeOption": 1,
                             "required": true,
-                            "enableRemark": false,
-                            "options": [
-                                {
-                                    "label": "1. Ya",
-                                    "value": "1"
-                                },
-                                {
-                                    "label": "2. Tidak",
-                                    "value": "2"
-                                }
-                            ]
+                            "enableRemark": false
                         },
                         {
                             "label": "Bantuan yang diterima",
                             "dataKey": "r501A",
-                            "type": 27,
-                            "rows": 4,
-                            "enableCondition": "let r501 = getValue('r501'); \n\n r501== '1'",
+                            "type": 29,                            
+                            "enableCondition": "let r501 = getValue('r501'); \n\n r501 == true ",
                             "componentEnable": ["r501"],
                             "options": [
                                 {
