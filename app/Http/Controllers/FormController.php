@@ -145,13 +145,33 @@ class FormController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    private function getCurrentValue($answer): string | null
+    private function getCurrentValue($answer): string | array | null
     {
         $currentValue = '';
         if (is_array($answer)) {
             if (array_key_exists(0, $answer)) {
+                if (!is_null($answer[0])) {
+                    if (is_array($answer[0])) {
 
-                $currentValue = $answer[0]['value'];
+                        $currentValue = $answer[0]['value'];
+                    } else {
+
+                        $currentValue = $answer[0];
+                    }
+                }
+            }
+            if (count($answer) > 1) {
+                $currentValue = [];
+
+                foreach ($answer as $key => $value) {
+                    if (is_array($value)) {
+
+                        array_push($currentValue, $value['value']);
+                    } else {
+                        array_push($currentValue, $value);
+                    }
+                }
+                $currentValue = json_encode($currentValue);
             }
         } else {
             $currentValue = $answer;
@@ -167,9 +187,6 @@ class FormController extends Controller
                 $data_ruta = new Response();
             } else {
                 $data_ruta = Response::find($id);
-                foreach ($data_ruta->arts as $art) {
-                    $art->delete();
-                }
             }
             $req = $request->all();
             $answers = $req['answers'];
@@ -185,7 +202,7 @@ class FormController extends Controller
                     $indexArt = $splitted[1];
                     // 2. if art in index not exxists then create
                     if (!array_key_exists($indexArt, $daftar_art)) {
-                        $daftar_art[$indexArt] = new ResponseArt();
+                        $daftar_art[$indexArt] = [];
                     }
                     // 3. assign value to art
                     $currentValue = $this->getCurrentValue($value['answer']);
@@ -206,19 +223,33 @@ class FormController extends Controller
                     $data_ruta[$value['dataKey']] = $this->getCurrentValue($value['answer']);
                 }
             }
-
-            $data_ruta->docState = $req['docState'];
+            if ($req["summary"]["answer"] == $req["summary"]["clean"]) {
+                $data_ruta->docState = "C";
+            } else if ($req["summary"]["error"] > 0) {
+                $data_ruta->docState = "E";
+            } else if ($req["summary"]["remark"] > 0) {
+                $data_ruta->docState = "W";
+            }
             $data_ruta->submit_status = '2';
             $data_ruta->region_id = $region_id;
-            // dd($answers);
+
             $data_ruta->save();
 
             // delete all arts in corresponding response id
 
             foreach ($daftar_art as  $index => $art) {
-                $art->response_id = $data_ruta->id;
-                $art->r402 = $index + 1;
-                $art->save();
+                $art["response_id"] = $data_ruta->id;
+                $art["no_art"] = $index;
+                $currentArt = ResponseArt::where('no_art', '=', $index)->where('response_id', $data_ruta->id)->first();
+                if (!$currentArt) {
+                    $currentArt = new ResponseArt($art);
+                } else {
+                    foreach ($art as $key => $value) {
+                        $currentArt[$key] = $value;
+                    }
+                }
+
+                $currentArt->save();
             }
 
             return response()->json([
@@ -520,11 +551,23 @@ class FormController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $region_id, string $id)
+    public function destroy(Response $response)
     {
-        $ResponseModel = getResponseModel();
-        $pml = auth()->user()->name;
-        $ResponseModel::where('region_id', $region_id)->where('pml', '=', $pml)->where('nurt', $id)->delete();
-        return redirect()->route('form.index', ['region_id' => $region_id]);
+        try {
+            //code...
+            $arts = ResponseArt::where('response_id', $response->id)->get();
+            DB::beginTransaction();
+            foreach ($arts as $art) {
+                $art->delete();
+            }
+            $response->delete();
+            DB::commit();
+
+            return response()->json(['message' => 'successfully deleted response!'], 403);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json(['message' => 'Oops Something bad happen!'], 500);
+            // throw $th;
+        }
     }
 }

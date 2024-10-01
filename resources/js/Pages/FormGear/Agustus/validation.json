@@ -85,24 +85,13 @@
             "componentValidation": ["r111"],
             "validations": [
                 {
-                    "test": "let value = getValue('r111'); value && !/^[a-zA-Z\\s]+$/.test(value)",
-                    "message": "Hanya boleh diisi dengan huruf",
+                    "test": "let value = getValue('r111'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
                     "type": 2
                 }
             ]
         },
 
-        {
-            "dataKey": "r113",
-            "componentValidation": ["r113"],
-            "validations": [
-                {
-                    "test": "let value = getValue('r113'); value && !/^[a-zA-Z0-9]+$/.test(value)",
-                    "message": "Hanya boleh diisi dengan huruf dan angka, tidak boleh ada simbol atau spasi",
-                    "type": 2
-                }
-            ]
-        },
         {
             "dataKey": "r114",
             "componentValidation": ["r114"],
@@ -141,8 +130,8 @@
             "componentValidation": ["pcl"],
             "validations": [
                 {
-                    "test": "let value = getValue('pcl'); value && !/^[a-zA-Z\\s]+$/.test(value)",
-                    "message": "Hanya boleh diisi dengan huruf",
+                    "test": "let value = getValue('pcl'); value === '' || value === null ? false : value < 1",
+                    "message": "Pilih salah satu",
                     "type": 2
                 }
             ]
@@ -217,22 +206,7 @@
                 }
             ]
         },
-        {
-            "dataKey": "r407",
-            "componentValidation": ["r407", "r38a", "r38b"],
-            "validations": [
-                {
-                    "test": "getValue('r407#'+getRowIndex(0)) < 1",
-                    "message": "Umur tidak boleh di bawah 1 Tahun",
-                    "type": 2
-                },
-                {
-                    "test": "let a = getValue('r38a#'+getRowIndex(0))\n let b = getValue('r38b#'+getRowIndex(0))\n getValue('umur#'+getRowIndex(0)) >=  50 && ( a ==1 || b == 1 )",
-                    "message": "r38a atau r38b = 1 tapi umur >= 50",
-                    "type": 1
-                }
-            ]
-        },
+
         {
             "dataKey": "r408",
             "componentValidation": ["r408@$ROW$"],
@@ -365,17 +339,7 @@
                 }
             ]
         },
-        {
-            "dataKey": "r419",
-            "componentValidation": ["r419@$ROW$"],
-            "validations": [
-                {
-                    "test": "getValue('r419#'+getRowIndex(0)) < 1",
-                    "message": "Pilih salah satu",
-                    "type": 2
-                }
-            ]
-        },
+
         {
             "dataKey": "r420A",
             "componentValidation": ["r420A@$ROW$"],
@@ -701,8 +665,8 @@
             "componentValidation": ["r302"],
             "validations": [
                 {
-                    "test": "let value = getValue('r302'); value && value.trim().length === 0",
-                    "message": "Luas lantai Bangunan",
+                    "test": "let value = getValue('r302'); value <1",
+                    "message": "Luas lantai bangunan harus lebih dari 0",
                     "type": 2
                 }
             ]
@@ -828,94 +792,7 @@
                 }
             ]
         },
-        {
-            "dataKey": "r501",
-            "componentValidation": ["r501"],
-            "validations": [
-                {
-                    "test": "let value = getValue('r501'); value === '' || value === null ? false : value < 1",
-                    "message": "Pilih salah satu",
-                    "type": 2
-                }
-            ]
-        },
-        {
-            "dataKey": "r501A",
-            "componentValidation": ["r501A"],
-            "validations": [
-                {
-                    "test": "let value = getValue('r501A'); value === '' || value === null ? false : value < 1",
-                    "message": "Pilih salah satu",
-                    "type": 2
-                }
-            ]
-        },
-        {
-            "dataKey": "r501B",
-            "componentValidation": ["r501B"],
-            "validations": [
-                {
-                    "test": "let value = getValue('r501B'); value === '' || value === null ? false : value < 1",
-                    "message": "Pilih salah satu",
-                    "type": 2
-                }
-            ]
-        },
-        {
-            "dataKey": "r501C",
-            "componentValidation": ["r501C"],
-            "validations": [
-                {
-                    "test": "let value = getValue('r501C'); value === '' || value === null ? false : value < 1",
-                    "message": "Pilih salah satu",
-                    "type": 2
-                }
-            ]
-        },
-        {
-            "dataKey": "r501D",
-            "componentValidation": ["r501D"],
-            "validations": [
-                {
-                    "test": "let value = getValue('r501D'); value === '' || value === null ? false : value < 1",
-                    "message": "Pilih salah satu",
-                    "type": 2
-                }
-            ]
-        },
-        {
-            "dataKey": "r501E",
-            "componentValidation": ["r501E"],
-            "validations": [
-                {
-                    "test": "let value = getValue('r501E'); value === '' || value === null ? false : value < 1",
-                    "message": "Pilih salah satu",
-                    "type": 2
-                }
-            ]
-        },
-        {
-            "dataKey": "r501F",
-            "componentValidation": ["r501F"],
-            "validations": [
-                {
-                    "test": "let value = getValue('r501F'); value === '' || value === null ? false : value < 1",
-                    "message": "Pilih salah satu",
-                    "type": 2
-                }
-            ]
-        },
-        {
-            "dataKey": "r501G",
-            "componentValidation": ["r501G"],
-            "validations": [
-                {
-                    "test": "let value = getValue('r501G'); value === '' || value === null ? false : value < 1",
-                    "message": "Pilih salah satu",
-                    "type": 2
-                }
-            ]
-        },
+
         {
             "dataKey": "r502",
             "componentValidation": ["r502"],
@@ -1114,17 +991,7 @@
                 }
             ]
         },
-        {
-            "dataKey": "r504",
-            "componentValidation": ["r504"],
-            "validations": [
-                {
-                    "test": "let value = getValue('r04'); value && value.trim().length === 0",
-                    "message": "Hewan Ternak (ekor) ",
-                    "type": 2
-                }
-            ]
-        },
+
         {
             "dataKey": "r505",
             "componentValidation": ["r505"],
