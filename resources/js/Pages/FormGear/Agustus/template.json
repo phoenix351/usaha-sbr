@@ -397,6 +397,11 @@
                                         "typeOption": 1,
                                         "required": false,
                                         "enableRemark": false,
+                                        "enableCondition": "let jenis_kelamin = getValue('r405@$ROW$'); let tanggal_lahir=getValue('r406@$ROW$'); let umur=tanggal_lahir!=''?Math.round((new Date()-new Date(tanggal_lahir))/31536000000):0;\n\n jenis_kelamin[0]? umur>=10&&jenis_kelamin[0].value=='2':false",
+                                        "componentEnable": [
+                                            "r406@$ROW$",
+                                            "r405@$ROW$"
+                                        ],
 
                                         "options": [
                                             {
@@ -435,6 +440,8 @@
                                     {
                                         "label": "<div class=\"text-center border-2 p-4 rounded-full\" style=\"backgrond-color: #FF0000\"><b>B. PENDIDIKAN (ANGGOTA KELUARGA USIA 5 TAHUN KE ATAS)</b></div>",
                                         "dataKey": "title_blok-art-2",
+                                        "enableCondition": "let tanggal_lahir=getValue('r406@$ROW$'); let umur=tanggal_lahir!=''?Math.round((new Date()-new Date(tanggal_lahir))/31536000000):0; umur>=5",
+                                        "componentEnable": ["r406@$ROW$"],
                                         "type": 3
                                     },
                                     {
@@ -444,7 +451,8 @@
                                         "typeOption": 1,
                                         "required": true,
                                         "enableRemark": false,
-
+                                        "enableCondition": "let tanggal_lahir=getValue('r406@$ROW$'); let umur=tanggal_lahir!=''?Math.round((new Date()-new Date(tanggal_lahir))/31536000000):0; umur>=5",
+                                        "componentEnable": ["r406@$ROW$"],
                                         "options": [
                                             {
                                                 "label": "1. Tidak/belum pernah sekolah",
@@ -710,7 +718,9 @@
                                     {
                                         "label": "<div class=\"text-center border-2 p-4 rounded-full\" style=\"backgrond-color: #FF0000\"><b>C. KETENAGAKERJAAN (ANGGOTA KELUARGA USIA 5 TAHUN KE ATAS)</b></div>",
                                         "dataKey": "title_blok-art-3",
-                                        "type": 3
+                                        "type": 3,
+                                        "enableCondition": "let tanggal_lahir=getValue('r406@$ROW$'); let umur=tanggal_lahir!=''?Math.round((new Date()-new Date(tanggal_lahir))/31536000000):0; umur>=5",
+                                        "componentEnable": ["r406@$ROW$"]
                                     },
                                     {
                                         "label": "r416. A. Apakah (nama) bekerja/membantu bekerja selama seminggu yang lalu?",
@@ -719,7 +729,8 @@
                                         "typeOption": 1,
                                         "required": true,
                                         "enableRemark": false,
-
+                                        "enableCondition": "let tanggal_lahir=getValue('r406@$ROW$'); let umur=tanggal_lahir!=''?Math.round((new Date()-new Date(tanggal_lahir))/31536000000):0; umur>=5",
+                                        "componentEnable": ["r406@$ROW$"],
                                         "options": [
                                             {
                                                 "label": "1. Ya",
@@ -742,7 +753,7 @@
                                         "disableInput": false,
                                         "disableInitial": false,
                                         "isEditableList": true,
-                                        "enableCondition": "let partisipasi = getValue('r416A@$ROW$'); \n\n partisipasi? partisipasi[0]==2 : false;",
+                                        "enableCondition": "let partisipasi = getValue('r416A@$ROW$'); \n\n  partisipasi? partisipasi[0].value==1 : false;",
                                         "componentEnable": ["r416A@$ROW$"]
                                     },
                                     {
@@ -752,7 +763,7 @@
                                         "typeOption": 1,
                                         "required": true,
                                         "enableRemark": false,
-                                        "enableCondition": "let partisipasi = getValue('r416A@$ROW$'); \n\n partisipasi? partisipasi[0]==2 : false;",
+                                        "enableCondition": "let partisipasi = getValue('r416A@$ROW$'); \n\n partisipasi? partisipasi[0].value==1 : false;",
                                         "componentEnable": ["r416A@$ROW$"],
                                         "options": [
                                             {
@@ -868,7 +879,7 @@
                                         "typeOption": 1,
                                         "required": true,
                                         "enableRemark": false,
-                                        "enableCondition": "let partisipasi = getValue('r416A@$ROW$'); \n\n partisipasi? partisipasi[0]==2 : false;",
+                                        "enableCondition": "let partisipasi = getValue('r416A@$ROW$'); \n\n partisipasi? partisipasi[0].value==1 : false;",
                                         "componentEnable": ["r416A@$ROW$"],
                                         "options": [
                                             {
@@ -909,6 +920,8 @@
                                     {
                                         "label": "<div class=\"text-center border-2 p-4 rounded-full\" style=\"backgrond-color: #FF0000\"><b>D. KEPEMILIKAN USAHA (ANGGOTA KELUARGA USIA 5 TAHUN KE ATAS)</b></div>",
                                         "dataKey": "title_blok-art-4",
+                                        "enableCondition": "let tanggal_lahir=getValue('r406@$ROW$'); let umur=tanggal_lahir!=''?Math.round((new Date()-new Date(tanggal_lahir))/31536000000):0; umur>=5",
+                                        "componentEnable": ["r406@$ROW$"],
                                         "type": 3
                                     },
                                     {
@@ -918,7 +931,8 @@
                                         "typeOption": 1,
                                         "required": true,
                                         "enableRemark": false,
-
+                                        "enableCondition": "let tanggal_lahir=getValue('r406@$ROW$'); let umur=tanggal_lahir!=''?Math.round((new Date()-new Date(tanggal_lahir))/31536000000):0; umur>=5",
+                                        "componentEnable": ["r406@$ROW$"],
                                         "options": [
                                             {
                                                 "label": "1. Ya",
@@ -941,7 +955,7 @@
                                         "disableInput": false,
                                         "disableInitial": false,
                                         "isEditableList": true,
-                                        "enableCondition": "let partisipasi = getValue('r420A@$ROW$'); \n\n partisipasi? partisipasi[0]==2 : false;",
+                                        "enableCondition": "let partisipasi = getValue('r420A@$ROW$'); \n\n partisipasi? partisipasi[0].value==1 : false;",
                                         "componentEnable": ["r420A@$ROW$"]
                                     },
                                     {
@@ -951,7 +965,7 @@
                                         "typeOption": 1,
                                         "required": true,
                                         "enableRemark": false,
-                                        "enableCondition": "let partisipasi = getValue('r420A@$ROW$'); \n\n partisipasi? partisipasi[0]==2 : false;",
+                                        "enableCondition": "let partisipasi = getValue('r420A@$ROW$'); \n\n partisipasi? partisipasi[0].value==1 : false;",
                                         "componentEnable": ["r420A@$ROW$"],
                                         "options": [
                                             {
@@ -1071,7 +1085,7 @@
                                         "disableInput": false,
                                         "disableInitial": false,
                                         "isEditableList": true,
-                                        "enableCondition": "let partisipasi = getValue('r420A@$ROW$'); \n\n partisipasi? partisipasi[0]==2 : false;",
+                                        "enableCondition": "let partisipasi = getValue('r420A@$ROW$'); \n\n partisipasi? partisipasi[0].value==1 : false;",
                                         "componentEnable": ["r420A@$ROW$"]
                                     },
                                     {
@@ -1085,7 +1099,7 @@
                                         "disableInput": false,
                                         "disableInitial": false,
                                         "isEditableList": true,
-                                        "enableCondition": "let partisipasi = getValue('r420A@$ROW$'); \n\n partisipasi? partisipasi[0]==2 : false;",
+                                        "enableCondition": "let partisipasi = getValue('r420A@$ROW$'); \n\n partisipasi? partisipasi[0].value==1 : false;",
                                         "componentEnable": ["r420A@$ROW$"]
                                     },
                                     {
@@ -1095,7 +1109,7 @@
                                         "typeOption": 1,
                                         "required": true,
                                         "enableRemark": false,
-                                        "enableCondition": "let partisipasi = getValue('r420A@$ROW$'); \n\n partisipasi? partisipasi[0]==2 : false;",
+                                        "enableCondition": "let partisipasi = getValue('r420A@$ROW$'); \n\n partisipasi? partisipasi[0].value==1 : false;",
                                         "componentEnable": ["r420A@$ROW$"],
                                         "options": [
                                             {
@@ -1155,7 +1169,7 @@
                                         "typeOption": 1,
                                         "required": true,
                                         "enableRemark": false,
-                                        "enableCondition": "let partisipasi = getValue('r420A@$ROW$'); \n\n partisipasi? partisipasi[0]==2 : false;",
+                                        "enableCondition": "let partisipasi = getValue('r420A@$ROW$'); \n\n partisipasi? partisipasi[0].value==1 : false;",
                                         "componentEnable": ["r420A@$ROW$"],
                                         "options": [
                                             {
@@ -1195,7 +1209,7 @@
                                         "typeOption": 1,
                                         "required": true,
                                         "enableRemark": false,
-                                        "enableCondition": "let partisipasi = getValue('r420A@$ROW$'); \n\n partisipasi? partisipasi[0]==2 : false;",
+                                        "enableCondition": "let partisipasi = getValue('r420A@$ROW$'); \n\n partisipasi? partisipasi[0].value==1 : false;",
                                         "componentEnable": ["r420A@$ROW$"],
                                         "options": [
                                             {
@@ -1240,7 +1254,8 @@
                                         "typeOption": 1,
                                         "required": true,
                                         "enableRemark": false,
-
+                                        "enableCondition": "let tanggal_lahir=getValue('r406@$ROW$'); let umur=tanggal_lahir!=''?Math.round((new Date()-new Date(tanggal_lahir))/31536000000):0; umur<5",
+                                        "componentEnable": ["r406@$ROW$"],
                                         "options": [
                                             {
                                                 "label": "1. Kurang gizi(Wasting)",
@@ -1537,7 +1552,8 @@
                                         "typeOption": 1,
                                         "required": true,
                                         "enableRemark": false,
-
+                                        "enableCondition": "let tanggal_lahir=getValue('r406@$ROW$'); let umur=tanggal_lahir!=''?Math.round((new Date()-new Date(tanggal_lahir))/31536000000):0; umur>=60",
+                                        "componentEnable": ["r406@$ROW$"],
                                         "options": [
                                             {
                                                 "label": "1. Ya, anggota keluarga",
@@ -1771,7 +1787,7 @@
                                     {
                                         "label": "r431. F. Dalam satu tahun terakhir, apakah (nama) memiliki jaminan ketenagakerjaan?",
                                         "dataKey": "r431F",
-                                        "type": 26,
+                                        "type": 29,
                                         "typeOption": 1,
                                         "required": true,
                                         "enableRemark": false,
@@ -2334,7 +2350,7 @@
                         {
                             "label": "Bantuan yang diterima",
                             "dataKey": "r501A",
-                            "type": 29,                            
+                            "type": 29,
                             "enableCondition": "let r501 = getValue('r501'); \n\n r501 == true ",
                             "componentEnable": ["r501"],
                             "options": [

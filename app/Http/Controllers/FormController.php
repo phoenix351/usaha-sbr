@@ -150,16 +150,26 @@ class FormController extends Controller
         $currentValue = '';
         if (is_array($answer)) {
             if (array_key_exists(0, $answer)) {
-                if(!is_null($answer[0])){
+                if (!is_null($answer[0])) {
+                    if (is_array($answer[0])) {
 
-                    $currentValue = $answer[0]['value'];
+                        $currentValue = $answer[0]['value'];
+                    } else {
+
+                        $currentValue = $answer[0];
+                    }
                 }
             }
             if (count($answer) > 1) {
                 $currentValue = [];
 
                 foreach ($answer as $key => $value) {
-                    array_push($currentValue, $value['value']);
+                    if (is_array($value)) {
+
+                        array_push($currentValue, $value['value']);
+                    } else {
+                        array_push($currentValue, $value);
+                    }
                 }
                 $currentValue = json_encode($currentValue);
             }
@@ -192,7 +202,7 @@ class FormController extends Controller
                     $indexArt = $splitted[1];
                     // 2. if art in index not exxists then create
                     if (!array_key_exists($indexArt, $daftar_art)) {
-                        $daftar_art[$indexArt] = new ResponseArt();
+                        $daftar_art[$indexArt] = [];
                     }
                     // 3. assign value to art
                     $currentValue = $this->getCurrentValue($value['answer']);
@@ -213,20 +223,33 @@ class FormController extends Controller
                     $data_ruta[$value['dataKey']] = $this->getCurrentValue($value['answer']);
                 }
             }
-
-            $data_ruta->docState = $req['docState'];
+            if ($req["summary"]["answer"] == $req["summary"]["clean"]) {
+                $data_ruta->docState = "C";
+            } else if ($req["summary"]["error"] > 0) {
+                $data_ruta->docState = "E";
+            } else if ($req["summary"]["remark"] > 0) {
+                $data_ruta->docState = "W";
+            }
             $data_ruta->submit_status = '2';
             $data_ruta->region_id = $region_id;
-            // dd($answers);
+
             $data_ruta->save();
 
             // delete all arts in corresponding response id
 
             foreach ($daftar_art as  $index => $art) {
-                $art->response_id = $data_ruta->id;
-                $art->r402 = $index + 1;
-                // dd($art);
-                $art->save();
+                $art["response_id"] = $data_ruta->id;
+                $art["no_art"] = $index;
+                $currentArt = ResponseArt::where('no_art', '=', $index)->where('response_id', $data_ruta->id)->first();
+                if (!$currentArt) {
+                    $currentArt = new ResponseArt($art);
+                } else {
+                    foreach ($art as $key => $value) {
+                        $currentArt[$key] = $value;
+                    }
+                }
+
+                $currentArt->save();
             }
 
             return response()->json([

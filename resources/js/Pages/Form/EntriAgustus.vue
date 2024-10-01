@@ -748,8 +748,6 @@ const data = Promise.all([
 
 data.then(
     ([reference, template, preset, response, validation, media, remark]) => {
-        console.log({ response });
-
         let questions = [
             ...template.components[0][0].components[0],
             ...template.components[0][1].components[0],
@@ -760,6 +758,7 @@ data.then(
         questions.forEach((question) => {
             questionType[question.dataKey] = question.type;
         });
+        // console.log({ questionType });
         // console.log({ questions });
 
         response.answers.forEach((answer, index) => {
@@ -770,8 +769,8 @@ data.then(
             // console.log({ dataKey, tipe: questionType[dataKey] });
             // console.log({ dataKey, ass: questionType[dataKey] });
 
+            let currentAnswer = response.answers[index].answer;
             if ([26, 27].includes(questionType[dataKey])) {
-                let currentAnswer = response.answers[index].answer;
                 if (!currentAnswer) {
                     return;
                 }
@@ -780,21 +779,28 @@ data.then(
                     { label: currentAnswer, value: currentAnswer },
                 ];
             }
+            if (questionType[dataKey] == 17) {
+                response.answers[index].answer = currentAnswer == "1";
+            }
             if ([29].includes(questionType[dataKey])) {
                 let currentAnswer = JSON.parse(response.answers[index].answer);
+                if (!currentAnswer) {
+                    currentAnswer = [];
+                    return;
+                }
                 currentAnswer = Array.isArray(currentAnswer)
                     ? currentAnswer
                     : [currentAnswer];
                 // console.log({ currentAnswer });
 
-                currentAnswer.map((value) => ({
+                currentAnswer = currentAnswer.map((value) => ({
                     label: value ? String(value) : value,
                     value: value ? String(value) : value,
                 }));
                 response.answers[index].answer = currentAnswer;
             }
         });
-        console.log({ answer: response.answers });
+        // console.log({ answer: response.answers });
 
         initForm(
             reference,

@@ -665,8 +665,8 @@
             "componentValidation": ["r302"],
             "validations": [
                 {
-                    "test": "let value = getValue('r302'); value && value.trim().length === 0",
-                    "message": "Luas lantai Bangunan",
+                    "test": "let value = getValue('r302'); value <1",
+                    "message": "Luas lantai bangunan harus lebih dari 0",
                     "type": 2
                 }
             ]
@@ -792,7 +792,7 @@
                 }
             ]
         },
-       
+
         {
             "dataKey": "r502",
             "componentValidation": ["r502"],
