@@ -133,82 +133,48 @@ class FormController extends Controller
 
         return $currentValue;
     }
-    public function store(Request $request, string $region_id, $id = null)
+    public function store(Request $request, string $region_id, $id)
     {
         try {
-            $excluded_attr = ['prov', 'kab', 'kec', 'desa'];
-            if (!$id) {
-                $data_ruta = new Response();
-            } else {
-                $data_ruta = Response::find($id);
-            }
+            $ResponseModel = getResponseModel();
             $req = $request->all();
+            // dd($req);
             $answers = $req['answers'];
-            $daftar_art = [];
-            foreach ($answers as  $value) {
+
+            // $response = new $ResponseModel(["region_id" => $region_id]);
+            if (!$id) {
+                $response = new $ResponseModel();
+            } else {
+                $response = $ResponseModel::find($id);
+            }
+            foreach ($answers as $key => $value) {
                 # code...
-                // 1. filter yang tidak memiliki simbol pager
-                if (str_contains($value['dataKey'], '#')) {
-                    // 0. split  by # 
-                    $splitted = explode('#', $value['dataKey']);
-                    // 1. get index of art and the dataKey
-                    $dataKey = $splitted[0];
-                    $indexArt = $splitted[1];
-                    // 2. if art in index not exxists then create
-                    if (!array_key_exists($indexArt, $daftar_art)) {
-                        $daftar_art[$indexArt] = [];
-                    }
-                    // 3. assign value to art
-                    $currentValue = $this->getCurrentValue($value['answer']);
-                    if ($currentValue) {
-
-                        $daftar_art[$indexArt][$dataKey] = $currentValue;
-                    }
+                if (is_null($value["answer"])) {
                     continue;
                 }
-                // 2. cek apakah type dari value array atau bukan
-                if (in_array($value['dataKey'], $excluded_attr)) {
+                if (is_array($value["answer"])) {
+
+                    $response[$value['dataKey']] = json_encode($value['answer']);
                     continue;
                 }
-                // 3. buat array asosiasi dari datakey=>value
-                $currentValue = $this->getCurrentValue($value['answer']);
-                if ($currentValue) {
-
-                    $data_ruta[$value['dataKey']] = $this->getCurrentValue($value['answer']);
-                }
+                $response[$value['dataKey']] = $value['answer'];
             }
-            if ($req["summary"]["answer"] == $req["summary"]["clean"]) {
-                $data_ruta->docState = "C";
-            } else if ($req["summary"]["error"] > 0) {
-                $data_ruta->docState = "E";
-            } else if ($req["summary"]["remark"] > 0) {
-                $data_ruta->docState = "W";
-            }
-            $data_ruta->submit_status = '2';
-            $data_ruta->region_id = $region_id;
+            $response["docState"] = $req['docState'];
+            $response["submit_status"] = '1';
+            unset($response->prov);
+            unset($response->kab);
+            unset($response->kec);
+            unset($response->desa);
+            // dd($response);
+            // $response->location =  (string)json_encode($response->location);
 
-            $data_ruta->save();
+            $response->save();
 
             // delete all arts in corresponding response id
 
-            foreach ($daftar_art as  $index => $art) {
-                $art["response_id"] = $data_ruta->id;
-                $art["no_art"] = $index;
-                $currentArt = ResponseArt::where('no_art', '=', $index)->where('response_id', $data_ruta->id)->first();
-                if (!$currentArt) {
-                    $currentArt = new ResponseArt($art);
-                } else {
-                    foreach ($art as $key => $value) {
-                        $currentArt[$key] = $value;
-                    }
-                }
-
-                $currentArt->save();
-            }
-
             return response()->json([
                 'message' => 'Data berhasil disimpan',
-                'id' => $data_ruta->id,
+                'id' => $response->id,
             ], 201);
         } catch (Throwable $th) {
             // return response()->json(['message' => 'Error: ' . $e->getMessage()], 500);
@@ -222,7 +188,7 @@ class FormController extends Controller
             $ResponseModel = getResponseModel();
             $req = $request->all();
             // dd($req);
-            $answers = $req["data"]['answers'];
+            $answers = $req['answers'];
 
             $response = new $ResponseModel(["region_id" => $region_id]);
             foreach ($answers as $key => $value) {
@@ -237,7 +203,7 @@ class FormController extends Controller
                 }
                 $response[$value['dataKey']] = $value['answer'];
             }
-            $response["docState"] = $req["data"]['docState'];
+            $response["docState"] = $req['docState'];
             $response["submit_status"] = '1';
             unset($response->prov);
             unset($response->kab);
@@ -265,10 +231,8 @@ class FormController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
-    }
+
+    public function show(string $id) {}
 
     /**
      * Show the form for editing the specified resource.
@@ -348,77 +312,39 @@ class FormController extends Controller
     {
         try {
             $ResponseModel = getResponseModel();
-            $pml = auth()->user()->name;
-
             $req = $request->all();
+            // dd($id);
             $answers = $req['answers'];
-            $jumlah_art = array_column($answers, 'answer', 'dataKey')['jml_art'] ?? null;
-            $nurt = array_column($answers, 'answer', 'dataKey')['nurt'][0]['value'] ?? null;
-            $hasil_kunjungan = array_column($answers, 'answer', 'dataKey')['hasil_kunjungan'][0]['value'] ?? null;
 
-            if ($hasil_kunjungan != '1') {
-                $response = $ResponseModel::firstOrNew([
-                    'region_id' => $region_id,
-                    'pml' => $pml,
-                    'nurt' => $id,
-                    'hasil_kunjungan' => $hasil_kunjungan
-                ]);
-                $response->region_id = $region_id;
-                $response->nurt = $nurt;
-                $response->nama_krt = array_column($answers, 'answer', 'dataKey')['nama_krt'] ?? null;
-                $response->hasil_kunjungan = $hasil_kunjungan;
-                $response->pcl = array_column($answers, 'answer', 'dataKey')['pcl'][0]['value'] ?? null;
-                $response->pml = array_column($answers, 'answer', 'dataKey')['pml'] ?? null;
-                $response->docState = $req['docState'];
-                $response->submit_status = '1';
-                $response->save();
-                $jumlah_art = 0;
+            // $response = new $ResponseModel(["region_id" => $region_id]);
+            if (!$id) {
+                $response = new $ResponseModel();
             } else {
-                $ResponseModel::where('region_id', $region_id)
-                    ->where('pml', $pml)
-                    ->where('nurt', $id)
-                    ->where('hasil_kunjungan', '!=', '1')
-                    ->delete();
-
-                for ($i = 0; $i < $jumlah_art; $i++) {
-                    $response = $ResponseModel::firstOrNew([
-                        'region_id' => $region_id,
-                        'pml' => $pml,
-                        'nurt' => $id,
-                        'no_art' => $i + 1
-                    ]);
-                    $response->region_id = $region_id;
-                    $response->nurt = $nurt;
-                    $response->nama_krt = array_column($answers, 'answer', 'dataKey')['nama_krt'] ?? null;
-                    $response->hasil_kunjungan = array_column($answers, 'answer', 'dataKey')['hasil_kunjungan'][0]['value'] ?? null;
-                    $response->pcl = array_column($answers, 'answer', 'dataKey')['pcl'][0]['value'] ?? null;
-                    $response->pml = array_column($answers, 'answer', 'dataKey')['pml'] ?? null;
-                    $response->no_art = $i + 1;
-                    $no_urut = '#' . ($i + 1);
-
-                    foreach ($answers as $key => $answer) {
-                        if (str_ends_with($answer['dataKey'], $no_urut)) {
-                            $dk = substr($answer['dataKey'], 0, -strlen($no_urut));
-                            $response->$dk = is_array($answer['answer'])
-                                ? (empty($answer['answer']) ? null : json_encode($answer['answer']))
-                                : strval($answer['answer']);
-                        }
-                    }
-                    $response->docState = $req['docState'];
-                    $response->submit_status = '1';
-                    $response->save();
-                }
+                $response = $ResponseModel::find($id);
             }
+            foreach ($answers as $key => $value) {
+                # code...
+                if (is_null($value["answer"])) {
+                    continue;
+                }
+                if (is_array($value["answer"])) {
 
-            $ResponseModel::where('region_id', $region_id)
-                ->where('pml', $pml)
-                ->where('nurt', $id)
-                ->where('no_art', '>', $jumlah_art)
-                ->delete();
+                    $response[$value['dataKey']] = json_encode($value['answer']);
+                    continue;
+                }
+                $response[$value['dataKey']] = $value['answer'];
+            }
+            $response["docState"] = $req['docState'];
+            $response["submit_status"] = '1';
+            unset($response->prov);
+            unset($response->kab);
+            unset($response->kec);
+            unset($response->desa);
 
+            $response->save();
             return response()->json([
                 'message' => 'Data berhasil disubmit',
-                'id' => $response->nurt
+                'id' => $response->id
             ], 201);
         } catch (\Exception $e) {
             return response()->json([

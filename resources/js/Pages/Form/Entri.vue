@@ -479,33 +479,67 @@ function initForm(
 
     let setSubmitMobile = function (res, rem, princ, ref) {
         responseGear = res;
-        // mediaGear = med
-        // remarkGear = rem
-        // principalGear = princ
-        // referenceGear = ref
 
-        // console.log('----------', new Date(), '----------');
-
-        // console.log('response', responseGear)
-        // // console.log('media', mediaGear)
-        // console.log('remark', remarkGear)
-        // console.log('principal', principalGear)
-        // console.log('reference', referenceGear)
         const par = route().params;
         if (route().current() == "form.edit") {
-            router.visit("/form/update/" + par["region_id"] + "/" + par["id"], {
-                method: "post",
-                data: responseGear,
-                preserveState: false,
-                preserveScroll: false,
-            });
+            // router.visit("/form/update/" + par["region_id"] + "/" + par["id"], {
+            //     method: "post",
+            //     data: responseGear,
+            //     preserveState: false,
+            //     preserveScroll: false,
+            // });
+            axios
+                .post(
+                    `/form/store/${par["region_id"]}/${par["id"]}`,
+                    responseGear
+                )
+                .then((response) => {
+                    const newId = response.data.id;
+                    history.pushState(
+                        {},
+                        "",
+                        `/form/edit/${par["region_id"]}/${newId}`
+                    );
+                    toastInfo(
+                        "Data berhasil disimpan",
+                        5000,
+                        "",
+                        "bg-blue-600/80"
+                    );
+                })
+                .catch((error) => {
+                    toastInfo(
+                        "Data gagal disimpan",
+                        5000,
+                        "",
+                        "bg-pink-600/80"
+                    );
+                });
         } else {
-            router.visit("/form/submit/" + par["region_id"], {
-                method: "post",
-                data: responseGear,
-                preserveState: false,
-                preserveScroll: false,
-            });
+            axios
+                .post(`/form/submit/${par["region_id"]}`, responseGear)
+                .then((response) => {
+                    const newId = response.data.id;
+                    history.pushState(
+                        {},
+                        "",
+                        `/form/edit/${par["region_id"]}/${newId}`
+                    );
+                    toastInfo(
+                        "Data berhasil disimpan",
+                        5000,
+                        "",
+                        "bg-blue-600/80"
+                    );
+                })
+                .catch((error) => {
+                    toastInfo(
+                        "Data gagal disimpan",
+                        5000,
+                        "",
+                        "bg-pink-600/80"
+                    );
+                });
         }
     };
 

@@ -60,7 +60,7 @@ Route::middleware(['auth', 'verified', 'is.pml'])->group(function () {
     Route::post('/form/submit/{region_id}', [FormController::class, 'submit'])->name('form.submit');
     Route::delete('/form/destroy/{response}', [FormController::class, 'destroy'])->name('form.destroy');
     Route::get('/form/edit/{region_id}/{id}', [FormController::class, 'edit'])->name('form.edit');
-    Route::post('/form/update/{region_id}/{nurt}', [FormController::class, 'update'])->name('form.update');
+    Route::post('/form/update/{region_id}/{id}', [FormController::class, 'update'])->name('form.update');
 });
 
 Route::get('/kecamatan/{kabupaten}', function (string $kabupaten) {
