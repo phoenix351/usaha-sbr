@@ -46,6 +46,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => ['auth', 'v
 //Routes for PML
 Route::middleware(['auth', 'verified', 'is.pml'])->group(function () {
     Route::get('/', function () {
+        // dd("sss");
         return Redirect::route('form.index');
     });
     //Routes for Profile

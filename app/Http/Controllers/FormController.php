@@ -20,29 +20,23 @@ class FormController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(string $region_id = null)
+    public function index(string $region_id = "")
     {
         $pml = auth()->user()->name;
-        $region_id = '7106020020';
-        $kabupaten = Region::all()->where('kabupaten', auth()->user()->kabupaten)->unique('kabupaten')->map(fn($kabupaten) => [
+        // $region_id = '7106020020';
+        $kabupaten = Region::all()->unique('kabupaten')->map(fn($kabupaten) => [
             'id' => $kabupaten->kabupaten,
             'nama' => '[' . $kabupaten->kabupaten . '] ' . $kabupaten->nama_kabupaten
         ]);
-        // $data = DB::table(getResponseTable())
-        //     ->select('region_id', 'nurt', 'docState', 'nama_krt', 'submit_status', 'updated_at', DB::raw('count(*) as jumlah_art'))
-        //     ->groupByRaw('region_id, nurt, docState, nama_krt ,submit_status, updated_at')
-        //     ->where('region_id', '=', $region_id)
-        //     // ->where('pml', '=', $pml)
-        //     ->get();
-        $data = Response::select('id', 'region_id', 'r110', 'r108', 'docState', 'r114', 'jml_art', 'submit_status', 'updated_at')
+
+        $data = Response::select('id', 'region_id', 'nama_usaha', 'nama_komersial', 'docState', 'kategori', 'submit_status', 'updated_at')
             ->where('region_id', '=', $region_id)
             ->get();
-        // dd($data);
         $region = null;
         if ($region_id != null) {
             $region = Region::where('id', $region_id)->first();
         }
-        // dd($region);
+        // dd($data);
         return Inertia::render('Form/Index', [
             "kabupatens" => $kabupaten,
             "data" => $data,
@@ -55,9 +49,8 @@ class FormController extends Controller
      */
     public function create(string $region_id)
     {
-        // dd ($request->all());
-        $pml = auth()->user()->name;
-        $idbs = $region_id;
+        // $pml = auth()->user()->name;
+        // $idbs = $region_id;
         // $pcl = User::all()->where('kabupaten', $region_id)->where('status', '2')->map(fn($pcl) =>[
         //     "label" => $pcl->name,
         //     "value" => $pcl->name,
@@ -66,43 +59,18 @@ class FormController extends Controller
             "select kabupaten from regions where id =" . $region_id
         );
         $kab = str_pad($kab, 2, '0', STR_PAD_LEFT);
-        if ($kab != auth()->user()->kabupaten) {
-            return inertia_location('/');
-        }
-        $res = Response::select('r110 as label', 'r110 as value')
-            ->where('region_id', '=', $region_id)
-            ->get()->toArray();
-        $res = json_decode(json_encode($res), true);
+        // if ($kab != auth()->user()->kabupaten) {
+        //     return inertia_location('/');
+        // }
+        // $res = Response::select('r110 as label', 'r110 as value')
+        //     ->where('region_id', '=', $region_id)
+        //     ->get()->toArray();
+        // $res = json_decode(json_encode($res), true);
 
-        $region = Region::findOrFail($region_id);
-        $jml_sampel = $region->jml_sampel;
-
-        $nurt = [];
-        for ($i = 1; $i <= $jml_sampel; $i++) {
-            $nurt[] = [
-                'label' => (string)$i,
-                'value' => (string)$i
-            ];
-        }
-        //  $nurt_done = array_diff($nurt, $res);
-        foreach ($nurt as $key => $n) {
-            foreach ($res as $r) {
-                if ($n['value'] == $r['value']) {
-                    unset($nurt[$key]);
-                }
-            }
-        }
-
-        $nurt = array_values($nurt);
+        // $region = Region::findOrFail($region_id);
 
 
-        $pcl = DB::table('users')
-            ->select('name as label', 'name as value')
-            ->where('kabupaten', '=', $kab)
-            ->where('status', '=', '2')
-            ->get();
-
-        $prefill = Region::all()->where('id', $idbs)->map(fn($prefill) => [
+        $prefill = Region::all()->where('id', $region_id)->map(fn($prefill) => [
             [
                 "dataKey" => "prov",
                 "answer" => '[' . $prefill->provinsi . '] ' . $prefill->nama_provinsi
@@ -118,27 +86,13 @@ class FormController extends Controller
             [
                 "dataKey" => "desa",
                 "answer" => '[' . $prefill->desa . '] ' . $prefill->nama_desa
-            ],
-            [
-                "dataKey" => "nbs",
-                "answer" => $prefill->nbs
-            ],
-            [
-                "dataKey" => "nks",
-                "answer" => $prefill->nks
-            ],
-            [
-                "dataKey" => "pml",
-                "answer" => $pml
-            ],
+            ]
         ]);
 
 
         return Inertia::render(getViewPath(), [
             "prefill" => $prefill,
             "region_id" => $region_id,
-            'pcl' => $pcl,
-            'nurt' => $nurt
         ]);
     }
 
@@ -261,61 +215,46 @@ class FormController extends Controller
             throw $th;
         }
     }
+
     public function submit(Request $request, string $region_id)
     {
         try {
             $ResponseModel = getResponseModel();
             $req = $request->all();
-            $answers = $req['answers'];
-            $jumlah_art = array_column($answers, 'answer', 'dataKey')['jml_art'] ?? null;
-            $hasil_kunjungan = array_column($answers, 'answer', 'dataKey')['hasil_kunjungan'][0]['value'] ?? null;
-            $pml = array_column($answers, 'answer', 'dataKey')['pml'] ?? null;
-            $nurt = array_column($answers, 'answer', 'dataKey')['nurt'][0]['value'] ?? null;
+            // dd($req);
+            $answers = $req["data"]['answers'];
 
-            if ($hasil_kunjungan != '1') {
-                $response = $ResponseModel::firstOrNew([
-                    'region_id' => $region_id,
-                    'pml' => $pml,
-                    'nurt' => $nurt,
-                    'hasil_kunjungan' => $hasil_kunjungan
-                ]);
-                $response->region_id = $region_id;
-                $response->nurt = $nurt;
-                $response->nama_krt = array_column($answers, 'answer', 'dataKey')['nama_krt'] ?? null;
-                $response->hasil_kunjungan = $hasil_kunjungan;
-                $response->pcl = array_column($answers, 'answer', 'dataKey')['pcl'][0]['value'] ?? null;
-                $response->pml = $pml;
-                $response->docState = $req['docState'];
-                $response->submit_status = '1';
-                $response->save();
-            } else {
-                for ($i = 0; $i < $jumlah_art; $i++) {
-                    $response = new $ResponseModel;
-                    $response->region_id = $region_id;
-                    $response->nurt = array_column($answers, 'answer', 'dataKey')['nurt'][0]['value'] ?? null;
-                    $response->nama_krt = array_column($answers, 'answer', 'dataKey')['nama_krt'] ?? null;
-                    $response->hasil_kunjungan = $hasil_kunjungan;
-                    $response->pcl = array_column($answers, 'answer', 'dataKey')['pcl'][0]['value'] ?? null;
-                    $response->pml = array_column($answers, 'answer', 'dataKey')['pml'] ?? null;
-                    $response->no_art = $i + 1;
-                    $no_urut = '#' . ($i + 1);
-                    foreach ($answers as $key => $answer) {
-                        if (str_ends_with($answer['dataKey'], $no_urut)) {
-                            $dk = substr($answer['dataKey'], 0, -strlen($no_urut));
-                            $response->$dk = strval($answer['answer']);
-                        }
-                    }
-                    $response->docState = $req['docState'];
-                    $response->submit_status = '1';
-                    $response->save();
+            $response = new $ResponseModel(["region_id" => $region_id]);
+            foreach ($answers as $key => $value) {
+                # code...
+                if (is_null($value["answer"])) {
+                    continue;
                 }
+                if (is_array($value["answer"])) {
+
+                    $response[$value['dataKey']] = json_encode($value['answer']);
+                    continue;
+                }
+                $response[$value['dataKey']] = $value['answer'];
             }
+            $response["docState"] = $req["data"]['docState'];
+            $response["submit_status"] = '1';
+            unset($response->prov);
+            unset($response->kab);
+            unset($response->kec);
+            unset($response->desa);
+            // dd($response);
+            // $response->location =  (string)json_encode($response->location);
+
+            $response->save();
 
             return response()->json([
                 'message' => 'Data berhasil disubmit',
-                'id' => $response->nurt
+                'data' => $response
+                // 'id' => $response->nurt
             ], 201);
         } catch (\Exception $e) {
+            // throw $th;
             return response()->json([
                 'message' => 'Error submitting data',
                 'error' => $e->getMessage()
@@ -347,77 +286,30 @@ class FormController extends Controller
         );
         $kab = str_pad($kab, 2, "0", STR_PAD_LEFT);
 
-        if ($kab != auth()->user()->kabupaten) {
-            return inertia_location('/');
-        }
-        $res = Response::select('r110 as label', 'r110 as value')
-            // ->where('region_id', '=', $region_id)
-            ->where('id', '!=', $id)
-            ->get()->toArray();
-        $res = json_decode(json_encode($res), true);
-
-        $region = Region::findOrFail($region_id);
-        $jml_sampel = $region->jml_sampel;
-
-        $nurt = [];
-        for ($i = 1; $i <= $jml_sampel; $i++) {
-            $nurt[] = [
-                'label' => (string)$i,
-                'value' => (string)$i
-            ];
-        }
-        //  $nurt_done = array_diff($nurt, $res);
-        foreach ($nurt as $key => $n) {
-            foreach ($res as $r) {
-                if ($n['value'] == $r['value']) {
-                    unset($nurt[$key]);
-                }
-            }
-        }
-
-        $nurt = array_values($nurt);
-        // dd([$nurt, $res]);
-        // $valuesInRes = array_column($res, 'value');
-        // $nurt = array_diff_key($nurt, array_flip($valuesInRes));
-        $pcl = DB::table('users')
-            ->select('name as label', 'name as value')
-            ->where('kabupaten', '=', $kab)
-            ->where('status', '=', '2')
-            ->get();
 
 
-        $response_ruta = Response::with(['arts'])->find($id)->toArray();
-        $arts = $response_ruta['arts'];
 
-        // $response_ruta = (array)$response_ruta;
-        $notQuestion = ['id', 'region_id', 'submit_status', 'updated_at', 'created_at', 'docState', 'arts'];
-        $response_ruta = array_diff_key($response_ruta, array_flip($notQuestion));
 
-        $field = array('id', 'region_id', 'nama_krt', 'pcl', 'pml', 'nurt', 'no_art', 'hasil_kunjungan');
+        $responses = Response::find($id)->toArray();
+
+        // $responses = (array)$responses;
+        $notQuestion = ['id', 'region_id', 'submit_status', 'updated_at', 'created_at', 'docState',];
+        $responses = array_diff_key($responses, array_flip($notQuestion));
+
+        $field = array('id', 'region_id',  'hasil_kunjungan');
 
         $response = [];
-        foreach ($response_ruta as $key => $value) {
+        $responses["location"] = json_decode($responses["location"], true);
+        $responses["kategori"] = json_decode($responses["kategori"], true);
+        // dd(gettype($responses["kategori"][0]));
+        foreach ($responses as $key => $value) {
             $response[] = [
                 'dataKey' => $key,
                 'answer' => $value,
             ];
         }
 
-        foreach ($arts as $index => $art) {
-            $no_art = $art['no_art'];
-            $filtered_art = array_diff_key($art, array_flip($notQuestion));
-            // if (!$no_art) {
-            //     continue;
-            // }
-            foreach ($filtered_art as $key => $value) {
-                $response[] = [
-                    'dataKey' => $key . '#' . $index + 1,
-                    'answer' => $value,
-                ];
-            }
-        }
         // dd($response);
-        // return response($response, 200);
 
         $prefill = Region::all()->where('id', $idbs)->map(fn($prefill) => [
             [
@@ -436,25 +328,13 @@ class FormController extends Controller
                 "dataKey" => "desa",
                 "answer" => '[' . $prefill->desa . '] ' . $prefill->nama_desa
             ],
-            [
-                "dataKey" => "nbs",
-                "answer" => $prefill->nbs
-            ],
-            [
-                "dataKey" => "nks",
-                "answer" => $prefill->nks
-            ],
-            [
-                "dataKey" => "pml",
-                "answer" => $pml
-            ]
+
         ]);
         $responses = [
             "prefill" => $prefill,
             "response" => $response,
             "region_id" => $region_id,
-            'pcl' => $pcl,
-            'nurt' => $nurt
+
         ];
 
         // dd($responses);

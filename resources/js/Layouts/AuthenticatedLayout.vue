@@ -35,7 +35,7 @@ const showingNavigationDropdown = ref(false);
                                     :href="route('form.index')"
                                     :active="route().current('form.index')"
                                 >
-                                    META DESA CANTIK
+                                    TAMBAH USAHA SBR
                                 </NavLink>
                             </div>
                         </div>
